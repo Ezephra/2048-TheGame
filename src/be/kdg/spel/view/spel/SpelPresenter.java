@@ -88,7 +88,7 @@ public class SpelPresenter {
 
     // TODO: moveTiles methode...
     // Nog te aanvullen
-
+    // ik heb iets erbij geschreven
 
 
     // TODO: mergeTiles methode...
