@@ -53,6 +53,7 @@ public class SpelPresenter {
         });
 
     }
+    //Ewa
 
     private void updateView() {
         addRandomTile();
