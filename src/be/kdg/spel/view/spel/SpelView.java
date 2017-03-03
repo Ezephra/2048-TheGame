@@ -15,22 +15,18 @@ import javafx.scene.shape.Rectangle;
  * Created by Boyan & Elias on 8/02/2017.
  */
 public class SpelView extends BorderPane {
+    private static final double TILE_HEIGHT = 90.0;
+    private static final double TILE_WIDTH = 90.0;
+    private static final double GRID_WIDTH = 410.0;
+    private static final double GRID_HEIGHT = 410.0;
     private Label lblHuidigeScore;
     private Label lblBesteScore;
     private Label lblHuidigeScoreGetal;
     private Label lblBesteScoreGetal;
     private Button btnRestart;
     private Label[][] lblTileValue;
-
-
     private GridPane grid;
-    private StackPane[][] stack;
-
-    private static final double TILE_HEIGHT = 90.0;
-    private static final double TILE_WIDTH = 90.0;
-
-    private static final double GRID_WIDTH = 410.0;
-    private static final double GRID_HEIGHT = 410.0;
+    private StackPane stack;
 
     public SpelView() {
         initialiseNodes();
@@ -48,7 +44,7 @@ public class SpelView extends BorderPane {
         lblTileValue = new Label[4][4];
 
         grid = new GridPane();
-        stack = new StackPane[4][4];
+        stack = new StackPane();
 
     }
 
@@ -78,10 +74,10 @@ public class SpelView extends BorderPane {
     private void displayGrid() {
         for (int x = 0; x < 4; x++) {
             for (int y = 0; y < 4; y++) {
-                stack[x][y] = new StackPane();
+                stack = new StackPane();
                 lblTileValue[x][y] = new Label();
-                stack[x][y].getChildren().addAll(createTile(),lblTileValue[x][y]);
-                grid.add(stack[x][y],x,y);
+                stack.getChildren().addAll(createTile(), lblTileValue[x][y]);
+                grid.add(stack, x, y);
             }
         }
     }
@@ -98,7 +94,7 @@ public class SpelView extends BorderPane {
         return grid;
     }
 
-    public StackPane[][] getStack() {
+    public StackPane getStack() {
         return stack;
     }
 

@@ -5,6 +5,7 @@ import be.kdg.spel.model.Spel;
 import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
 import java.util.Random;
@@ -32,7 +33,32 @@ public class SpelPresenter {
         updateView();
     }
     private void addEventHandelers() {
-        view.getGrid().setOnKeyPressed(new EventHandler<KeyEvent>() {
+        view.getGrid().addEventHandler(KeyEvent.KEY_PRESSED, event -> {
+            KeyCode keycode = event.getCode();
+            switch (keycode) {
+                case KP_UP:
+                    Alert a = new Alert(Alert.AlertType.INFORMATION);
+                    a.setContentText("HET WERKT DEZE SHIT OMG");
+                    a.showAndWait();
+                    break;
+                case KP_DOWN:
+                    Alert b = new Alert(Alert.AlertType.INFORMATION);
+                    b.setContentText("HET WERKT DEZE SHIT OMG");
+                    b.showAndWait();
+                    break;
+                case KP_RIGHT:
+                    Alert c = new Alert(Alert.AlertType.INFORMATION);
+                    c.setContentText("HET WERKT DEZE SHIT OMG");
+                    c.showAndWait();
+                    break;
+                case KP_LEFT:
+                    Alert d = new Alert(Alert.AlertType.INFORMATION);
+                    d.setContentText("HET WERKT DEZE SHIT OMG");
+                    d.showAndWait();
+                    break;
+            }
+        });
+        /* view.getGrid().setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
                 switch (event.getCode()) {
@@ -51,8 +77,9 @@ public class SpelPresenter {
                 }
             }
         });
-
+*/
     }
+
 
     private void updateView() {
         addRandomTile();
@@ -88,7 +115,7 @@ public class SpelPresenter {
 
     // TODO: moveTiles methode...
     // Nog te aanvullen
-
+    // ik heb iets erbij geschreven
 
 
     // TODO: mergeTiles methode...
