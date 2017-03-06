@@ -50,6 +50,7 @@ public class SpelView extends BorderPane {
 
     private void layoutNodes() {
         this.setBottom(btnRestart);
+        btnRestart.setFocusTraversable(false);
         HBox hBoxLabels = new HBox(10, lblHuidigeScore, lblHuidigeScoreGetal, lblBesteScore, lblBesteScoreGetal);
 
         this.setTop(hBoxLabels);
@@ -90,7 +91,7 @@ public class SpelView extends BorderPane {
         return tile;
     }
 
-    public GridPane getGrid() {
+    GridPane getGrid() {
         return grid;
     }
 
@@ -98,7 +99,7 @@ public class SpelView extends BorderPane {
         return stack;
     }
 
-    public Label getTileValue(int x, int y) {
+    Label getTileValue(int x, int y) {
         return lblTileValue[x][y];
     }
 

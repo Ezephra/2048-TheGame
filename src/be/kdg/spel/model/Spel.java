@@ -1,14 +1,12 @@
 package be.kdg.spel.model;
 
-import javafx.scene.control.Label;
-
 import java.util.Random;
 
 
 /**
  * Created by Boyan & Elias on 8/02/2017.
  */
-public class Spel extends Label{
+public class Spel {
     private int value;
 
     public Spel() {
