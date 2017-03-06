@@ -3,9 +3,7 @@ package be.kdg.spel.view.spel;
 import be.kdg.spel.model.Richting;
 import be.kdg.spel.model.Spel;
 import javafx.event.EventHandler;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
 import java.util.Random;
@@ -33,58 +31,39 @@ public class SpelPresenter {
         updateView();
     }
     private void addEventHandelers() {
-        view.getGrid().addEventHandler(KeyEvent.KEY_PRESSED, event -> {
-            KeyCode keycode = event.getCode();
-            switch (keycode) {
-                case KP_UP:
-                    Alert a = new Alert(Alert.AlertType.INFORMATION);
-                    a.setContentText("HET WERKT DEZE SHIT OMG");
-                    a.showAndWait();
-                    break;
-                case KP_DOWN:
-                    Alert b = new Alert(Alert.AlertType.INFORMATION);
-                    b.setContentText("HET WERKT DEZE SHIT OMG");
-                    b.showAndWait();
-                    break;
-                case KP_RIGHT:
-                    Alert c = new Alert(Alert.AlertType.INFORMATION);
-                    c.setContentText("HET WERKT DEZE SHIT OMG");
-                    c.showAndWait();
-                    break;
-                case KP_LEFT:
-                    Alert d = new Alert(Alert.AlertType.INFORMATION);
-                    d.setContentText("HET WERKT DEZE SHIT OMG");
-                    d.showAndWait();
-                    break;
-            }
-        });
-        /* view.getGrid().setOnKeyPressed(new EventHandler<KeyEvent>() {
+        view.getGrid().setFocusTraversable(true);
+        view.getGrid().setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
+                System.out.println(event.getCode().toString());
                 switch (event.getCode()) {
-                    case KP_UP:
-                        //moveTiles(Richting.BOVEN);
+                    case UP:
+                        moveTiles(Richting.BOVEN);
+                        addRandomTile();
                         break;
-                    case KP_DOWN:
-                        //moveTiles(Richting.BENEDEN);
+                    case DOWN:
+                        moveTiles(Richting.BENEDEN);
+                        addRandomTile();
                         break;
-                    case KP_LEFT:
-                        //moveTiles(Richting.LINKS);
+                    case LEFT:
+                        moveTiles(Richting.LINKS);
+                        addRandomTile();
                         break;
-                    case KP_RIGHT:
-                        //moveTiles(Richting.RECHTS);
+                    case RIGHT:
+                        moveTiles(Richting.RECHTS);
+                        addRandomTile();
                         break;
                 }
             }
         });
-*/
+
     }
 
 
     private void updateView() {
         addRandomTile();
         addRandomTile();
-        System.out.println(model.randomTile());
+
     }
 
     private void addRandomTile(){
@@ -92,6 +71,7 @@ public class SpelPresenter {
         xRandom = random.nextInt(4);
         yRandom = random.nextInt(4);
         while (view.getTileValue(xRandom,yRandom).getText().equals("")){
+            // // TODO: 5/03/2017 leeg plaats
             view.getTileValue(xRandom,yRandom).setText(Integer.toString(model.randomTile()));
             break;
         }
@@ -114,9 +94,181 @@ public class SpelPresenter {
     }
 
     // TODO: moveTiles methode...
-    // Nog te aanvullen
-    // ik heb iets erbij geschreven
+    private void moveTiles(Richting r) {
+        switch (r) {
+            case BOVEN:
+                //bij elke y kolom checked die elke vak of er plaats is.
+                for (int x = 0; x < 4; x++) {
+                    for (int y = 0; y < 4; y++) {
+                        int checkLeeg = 0;
+                        if (y == 0) {
+                            continue;
+                        }
+                        /*if (view.getTileValue(x,y-1).getText().equals("")){
+                            view.getTileValue(x,y-1).setText(view.getTileValue(x,y).getText());
+                            view.getTileValue(x,y).setText("");
+                        }*/
+                        // als de tile leeg is
+                        if (view.getTileValue(x, checkLeeg).getText().equals("")) {
+                            while (view.getTileValue(x, checkLeeg).getText().equals("")) {
+                                view.getTileValue(x, checkLeeg).setText(view.getTileValue(x, y).getText());
+                                view.getTileValue(x, y).setText("");
+                                if (checkLeeg == 3) {
+                                    break;
+                                }
+                                checkLeeg++;
+                            }
+                        } else if (view.getTileValue(x, checkLeeg + 1).getText().equals("")) {
+                            while (view.getTileValue(x, checkLeeg + 1).getText().equals("")) {
+                                view.getTileValue(x, checkLeeg + 1).setText(view.getTileValue(x, y).getText());
+                                view.getTileValue(x, y).setText("");
+                                if (checkLeeg == 2) {
+                                    break;
+                                }
+                                checkLeeg++;
+                            }
+                        } else {
+                            while (view.getTileValue(x, checkLeeg + 2).getText().equals("")) {
+                                view.getTileValue(x, checkLeeg + 2).setText(view.getTileValue(x, y).getText());
+                                view.getTileValue(x, y).setText("");
+                                if (checkLeeg == 1) {
+                                    break;
+                                }
+                                checkLeeg++;
+                            }
+                        }
+                    }
+                }
+                break;
+            case BENEDEN:
+                for (int x = 0; x < 4; x++) {
+                    for (int y = 3; y >= 0; y--) {
+                        int checkLeeg = 3;
+                        if (y == 3) {
+                            continue;
+                        }
+                        /*if (view.getTileValue(x,y+1).getText().equals("")){
+                            view.getTileValue(x,y+1).setText(view.getTileValue(x,y).getText());
+                            view.getTileValue(x,y).setText("");
+                        }*/
+                        if (view.getTileValue(x, checkLeeg).getText().equals("")) {
+                            while (view.getTileValue(x, checkLeeg).getText().equals("")) {
+                                view.getTileValue(x, checkLeeg).setText(view.getTileValue(x, y).getText());
+                                view.getTileValue(x, y).setText("");
+                                if (checkLeeg == 0) {
+                                    break;
+                                }
+                                checkLeeg--;
+                            }
+                        } else if (view.getTileValue(x, checkLeeg - 1).getText().equals("")) {
+                            while (view.getTileValue(x, checkLeeg - 1).getText().equals("")) {
+                                view.getTileValue(x, checkLeeg - 1).setText(view.getTileValue(x, y).getText());
+                                view.getTileValue(x, y).setText("");
+                                if (checkLeeg == 1) {
+                                    break;
+                                }
+                                checkLeeg--;
+                            }
+                        } else if (view.getTileValue(x, checkLeeg - 2).getText().equals("")) {
+                            while (view.getTileValue(x, checkLeeg - 2).getText().equals("")) {
+                                view.getTileValue(x, checkLeeg - 2).setText(view.getTileValue(x, y).getText());
+                                view.getTileValue(x, y).setText("");
+                                if (checkLeeg == 2) {
+                                    break;
+                                }
+                                checkLeeg--;
+                            }
+                        }
+                    }
+                }
+                break;
+            case LINKS:
+                for (int x = 0; x < 4; x++) {
+                    for (int y = 0; y < 4; y++) {
+                        int checkLeeg = 0;
+                        if (x == 0) {
+                            continue;
+                        }
+                        /*if (view.getTileValue(x-1,y).getText().equals("")){
+                            view.getTileValue(x-1,y).setText(view.getTileValue(x,y).getText());
+                            view.getTileValue(x,y).setText("");
+                        }*/
+                        if (view.getTileValue(checkLeeg, y).getText().equals("")) {
+                            while (view.getTileValue(checkLeeg, y).getText().equals("")) {
+                                view.getTileValue(checkLeeg, y).setText(view.getTileValue(x, y).getText());
+                                view.getTileValue(x, y).setText("");
+                                if (checkLeeg == 3) {
+                                    break;
+                                }
+                                checkLeeg++;
+                            }
+                        } else if (view.getTileValue(checkLeeg + 1, y).getText().equals("")) {
+                            while (view.getTileValue(checkLeeg + 1, y).getText().equals("")) {
+                                view.getTileValue(checkLeeg + 1, y).setText(view.getTileValue(x, y).getText());
+                                view.getTileValue(x, y).setText("");
+                                if (checkLeeg == 2) {
+                                    break;
+                                }
+                                checkLeeg++;
 
+                            }
+                        } else {
+                            while (view.getTileValue(checkLeeg + 2, y).getText().equals("")) {
+                                view.getTileValue(checkLeeg + 2, y).setText(view.getTileValue(x, y).getText());
+                                view.getTileValue(x, y).setText("");
+                                if (checkLeeg == 1) {
+                                    break;
+                                }
+                                checkLeeg++;
+                            }
+                        }
+                    }
+                }
+                break;
+            case RECHTS:
+                for (int x = 3; x >= 0; x--) {
+                    for (int y = 0; y < 4; y++) {
+                        int checkLeeg = 3;
+                        if (x == 3) {
+                            continue;
+                        }
+                        /*if (view.getTileValue(x+1,y).getText().equals("")){
+                            view.getTileValue(x+1,y).setText(view.getTileValue(x,y).getText());
+                            view.getTileValue(x,y).setText("");
+                        }*/
+                        if (view.getTileValue(checkLeeg, y).getText().equals("")) {
+                            while (view.getTileValue(checkLeeg, y).getText().equals("")) {
+                                view.getTileValue(checkLeeg, y).setText(view.getTileValue(x, y).getText());
+                                view.getTileValue(x, y).setText("");
+                                if (checkLeeg == 0) {
+                                    break;
+                                }
+                                checkLeeg--;
+                            }
+                        } else if (view.getTileValue(checkLeeg - 1, y).getText().equals("")) {
+                            while (view.getTileValue(checkLeeg - 1, y).getText().equals("")) {
+                                view.getTileValue(checkLeeg - 1, y).setText(view.getTileValue(x, y).getText());
+                                view.getTileValue(x, y).setText("");
+                                if (checkLeeg == 1) {
+                                    break;
+                                }
+                                checkLeeg--;
+                            }
+                        } else {
+                            while (view.getTileValue(checkLeeg - 2, y).getText().equals("")) {
+                                view.getTileValue(checkLeeg - 2, y).setText(view.getTileValue(x, y).getText());
+                                view.getTileValue(x, y).setText("");
+                                if (checkLeeg == 2) {
+                                    break;
+                                }
+                                checkLeeg--;
+                            }
+                        }
+                    }
+                }
+                break;
+        }
+    }
 
     // TODO: mergeTiles methode...
     // Nog te aanvullen
