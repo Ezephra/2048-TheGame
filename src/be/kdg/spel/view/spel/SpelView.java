@@ -103,6 +103,10 @@ public class SpelView extends BorderPane {
         return lblTileValue[x][y];
     }
 
+    public Label getLblHuidigeScoreGetal() {
+        return lblHuidigeScoreGetal;
+    }
+
     public Background getbackgroundtile(int value) {
         switch (value) {
             case 2:    return new Background(new BackgroundFill(Color.rgb(238,228,218),CornerRadii.EMPTY, Insets.EMPTY));

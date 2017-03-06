@@ -67,12 +67,14 @@ public class SpelPresenter {
     }
 
     private void addRandomTile(){
-        this.random = new Random();
+        this.random = new Random(4);
+        int randomGetal = model.randomTile();
+
         xRandom = random.nextInt(4);
         yRandom = random.nextInt(4);
         while (view.getTileValue(xRandom,yRandom).getText().equals("")){
             // // TODO: 5/03/2017 leeg plaats
-            view.getTileValue(xRandom,yRandom).setText(Integer.toString(model.randomTile()));
+            view.getTileValue(xRandom, yRandom).setText(Integer.toString(randomGetal));
             break;
         }
     }
@@ -100,15 +102,22 @@ public class SpelPresenter {
                 //bij elke y kolom checked die elke vak of er plaats is.
                 for (int x = 0; x < 4; x++) {
                     for (int y = 0; y < 4; y++) {
+                        String currentTile = view.getTileValue(x, y).getText();
+
                         int checkLeeg = 0;
                         if (y == 0) {
                             continue;
                         }
-                        /*if (view.getTileValue(x,y-1).getText().equals("")){
-                            view.getTileValue(x,y-1).setText(view.getTileValue(x,y).getText());
-                            view.getTileValue(x,y).setText("");
-                        }*/
-                        // als de tile leeg is
+                        if (y != 0) {
+                            if (currentTile.equals(view.getTileValue(x, y - 1).getText()) &&
+                                    !currentTile.equals("")) {
+
+                                view.getTileValue(x, y - 1).setText(mergeTiles(currentTile,
+                                        view.getTileValue(x, y - 1).getText()));
+                                view.getTileValue(x, y).setText("");
+                                continue;
+                            }
+                        }
                         if (view.getTileValue(x, checkLeeg).getText().equals("")) {
                             while (view.getTileValue(x, checkLeeg).getText().equals("")) {
                                 view.getTileValue(x, checkLeeg).setText(view.getTileValue(x, y).getText());
@@ -143,14 +152,21 @@ public class SpelPresenter {
             case BENEDEN:
                 for (int x = 0; x < 4; x++) {
                     for (int y = 3; y >= 0; y--) {
+                        String currentTile = view.getTileValue(x, y).getText();
                         int checkLeeg = 3;
                         if (y == 3) {
                             continue;
                         }
-                        /*if (view.getTileValue(x,y+1).getText().equals("")){
-                            view.getTileValue(x,y+1).setText(view.getTileValue(x,y).getText());
-                            view.getTileValue(x,y).setText("");
-                        }*/
+                        if (y != 3) {
+                            if (currentTile.equals(view.getTileValue(x, y + 1).getText()) &&
+                                    !view.getTileValue(x, y).getText().equals("")) {
+                                view.getTileValue(x, y + 1).setText(mergeTiles(currentTile,
+                                        view.getTileValue(x, y + 1).getText()));
+                                view.getTileValue(x, y).setText("");
+                                continue;
+                            }
+                        }
+
                         if (view.getTileValue(x, checkLeeg).getText().equals("")) {
                             while (view.getTileValue(x, checkLeeg).getText().equals("")) {
                                 view.getTileValue(x, checkLeeg).setText(view.getTileValue(x, y).getText());
@@ -185,17 +201,23 @@ public class SpelPresenter {
             case LINKS:
                 for (int x = 0; x < 4; x++) {
                     for (int y = 0; y < 4; y++) {
+                        String currentTile = view.getTileValue(x, y).getText();
                         int checkLeeg = 0;
                         if (x == 0) {
                             continue;
                         }
-                        /*if (view.getTileValue(x-1,y).getText().equals("")){
-                            view.getTileValue(x-1,y).setText(view.getTileValue(x,y).getText());
-                            view.getTileValue(x,y).setText("");
-                        }*/
+                        if (x != 0) {
+                            if (currentTile.equals(view.getTileValue(x - 1, y).getText()) &&
+                                    !view.getTileValue(x, y).getText().equals("")) {
+                                view.getTileValue(x - 1, y).setText(mergeTiles(currentTile,
+                                        view.getTileValue(x - 1, y).getText()));
+                                view.getTileValue(x, y).setText("");
+                                continue;
+                            }
+                        }
                         if (view.getTileValue(checkLeeg, y).getText().equals("")) {
                             while (view.getTileValue(checkLeeg, y).getText().equals("")) {
-                                view.getTileValue(checkLeeg, y).setText(view.getTileValue(x, y).getText());
+                                view.getTileValue(checkLeeg, y).setText(currentTile);
                                 view.getTileValue(x, y).setText("");
                                 if (checkLeeg == 3) {
                                     break;
@@ -204,17 +226,16 @@ public class SpelPresenter {
                             }
                         } else if (view.getTileValue(checkLeeg + 1, y).getText().equals("")) {
                             while (view.getTileValue(checkLeeg + 1, y).getText().equals("")) {
-                                view.getTileValue(checkLeeg + 1, y).setText(view.getTileValue(x, y).getText());
+                                view.getTileValue(checkLeeg + 1, y).setText(currentTile);
                                 view.getTileValue(x, y).setText("");
                                 if (checkLeeg == 2) {
                                     break;
                                 }
                                 checkLeeg++;
-
                             }
                         } else {
                             while (view.getTileValue(checkLeeg + 2, y).getText().equals("")) {
-                                view.getTileValue(checkLeeg + 2, y).setText(view.getTileValue(x, y).getText());
+                                view.getTileValue(checkLeeg + 2, y).setText(currentTile);
                                 view.getTileValue(x, y).setText("");
                                 if (checkLeeg == 1) {
                                     break;
@@ -228,17 +249,25 @@ public class SpelPresenter {
             case RECHTS:
                 for (int x = 3; x >= 0; x--) {
                     for (int y = 0; y < 4; y++) {
+                        String currentTile = view.getTileValue(x, y).getText();
                         int checkLeeg = 3;
                         if (x == 3) {
                             continue;
                         }
-                        /*if (view.getTileValue(x+1,y).getText().equals("")){
-                            view.getTileValue(x+1,y).setText(view.getTileValue(x,y).getText());
-                            view.getTileValue(x,y).setText("");
-                        }*/
+                        if (x != 3) {
+                            if (currentTile.equals(view.getTileValue(x + 1, y).getText()) &&
+                                    !view.getTileValue(x, y).getText().equals("")) {
+
+                                view.getTileValue(x + 1, y).setText(mergeTiles(currentTile,
+                                        view.getTileValue(x + 1, y).getText()));
+                                view.getTileValue(x, y).setText("");
+                                continue;
+                            }
+                        }
+
                         if (view.getTileValue(checkLeeg, y).getText().equals("")) {
                             while (view.getTileValue(checkLeeg, y).getText().equals("")) {
-                                view.getTileValue(checkLeeg, y).setText(view.getTileValue(x, y).getText());
+                                view.getTileValue(checkLeeg, y).setText(currentTile);
                                 view.getTileValue(x, y).setText("");
                                 if (checkLeeg == 0) {
                                     break;
@@ -247,7 +276,7 @@ public class SpelPresenter {
                             }
                         } else if (view.getTileValue(checkLeeg - 1, y).getText().equals("")) {
                             while (view.getTileValue(checkLeeg - 1, y).getText().equals("")) {
-                                view.getTileValue(checkLeeg - 1, y).setText(view.getTileValue(x, y).getText());
+                                view.getTileValue(checkLeeg - 1, y).setText(currentTile);
                                 view.getTileValue(x, y).setText("");
                                 if (checkLeeg == 1) {
                                     break;
@@ -256,7 +285,7 @@ public class SpelPresenter {
                             }
                         } else {
                             while (view.getTileValue(checkLeeg - 2, y).getText().equals("")) {
-                                view.getTileValue(checkLeeg - 2, y).setText(view.getTileValue(x, y).getText());
+                                view.getTileValue(checkLeeg - 2, y).setText(currentTile);
                                 view.getTileValue(x, y).setText("");
                                 if (checkLeeg == 2) {
                                     break;
@@ -270,8 +299,18 @@ public class SpelPresenter {
         }
     }
 
-    // TODO: mergeTiles methode...
-    // Nog te aanvullen
 
+    private String mergeTiles(String currentTile, String destinationTile) {
+        int currentValue = Integer.parseInt(currentTile);
+        int otherValue = Integer.parseInt(destinationTile);
+        int scoreGetal = Integer.parseInt(view.getLblHuidigeScoreGetal().getText());
+
+        if (currentValue == otherValue) {
+            otherValue += currentValue;
+            scoreGetal += otherValue;
+        }
+        view.getLblHuidigeScoreGetal().setText(Integer.toString(scoreGetal));
+        return Integer.toString(otherValue);
+    }
 
 }
