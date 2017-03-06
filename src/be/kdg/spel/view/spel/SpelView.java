@@ -48,6 +48,7 @@ public class SpelView extends BorderPane {
 
     }
 
+    //lol
     private void layoutNodes() {
         this.setBottom(btnRestart);
         btnRestart.setFocusTraversable(false);
