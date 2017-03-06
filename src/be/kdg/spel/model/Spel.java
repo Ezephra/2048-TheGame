@@ -26,7 +26,7 @@ public class Spel {
     }
 
     public int randomTile(){
-        Random r = new Random(2);
+        Random r = new Random();
         int value = (r.nextInt(2) + 1) * 2;
         return value;
     }
