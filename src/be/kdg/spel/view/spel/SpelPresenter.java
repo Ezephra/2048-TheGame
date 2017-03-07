@@ -2,6 +2,9 @@ package be.kdg.spel.view.spel;
 
 import be.kdg.spel.model.Richting;
 import be.kdg.spel.model.Spel;
+import be.kdg.spel.view.start.StartPresenter;
+import be.kdg.spel.view.start.StartView;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyEvent;
 
@@ -53,6 +56,16 @@ public class SpelPresenter {
                         addRandomTile();
                         break;
                 }
+            }
+        });
+
+        view.getBtnTerug().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                StartView startView = new StartView();
+                StartPresenter spelPresenter = new StartPresenter(startView);
+                view.getScene().setRoot(startView);
+                startView.getScene().getWindow().sizeToScene();
             }
         });
 
