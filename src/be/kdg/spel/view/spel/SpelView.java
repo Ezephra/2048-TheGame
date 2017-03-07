@@ -1,10 +1,15 @@
 package be.kdg.spel.view.spel;
 
 
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -20,11 +25,15 @@ public class SpelView extends BorderPane {
     private static final double TILE_WIDTH = 90.0;
     private static final double GRID_WIDTH = 410.0;
     private static final double GRID_HEIGHT = 410.0;
+    GridPane valueLabels = new GridPane();
     private Label lblHuidigeScore;
     private Label lblBesteScore;
     private Label lblHuidigeScoreGetal;
     private Label lblBesteScoreGetal;
     private Button btnRestart;
+    private Button btnTerug;
+    private Button btnHighscore;
+
     private Label[][] lblTileValue;
     private GridPane grid;
     private StackPane[][] stack;
@@ -41,22 +50,46 @@ public class SpelView extends BorderPane {
         lblHuidigeScore.setPadding(new Insets(0,0,0,125));
         lblBesteScoreGetal = new Label("0");
         lblHuidigeScoreGetal = new Label("0");
-        btnRestart = new Button("Restart");
         lblTileValue = new Label[4][4];
+
+        Image imageRestart = new Image("be/kdg/spel/view/spel/images/restart.png");
+        btnRestart = new Button();
+        btnRestart.setGraphic(new ImageView(imageRestart));
+        btnRestart.setBackground(null);
+
+        Image imageHigh = new Image("be/kdg/spel/view/spel/images/highscore.png");
+        btnHighscore = new Button();
+        btnHighscore.setGraphic(new ImageView(imageHigh));
+        btnHighscore.setBackground(null);
+
+        Image imageBack = new Image("be/kdg/spel/view/spel/images/left.png");
+        btnTerug = new Button();
+        btnTerug.setGraphic(new ImageView(imageBack));
+        btnTerug.setBackground(null);
 
         grid = new GridPane();
         stack = new StackPane[4][4];
 
     }
 
+    //lol
     private void layoutNodes() {
-        this.setBottom(btnRestart);
-        btnRestart.setFocusTraversable(false);
-        HBox hBoxLabels = new HBox(10, lblHuidigeScore, lblHuidigeScoreGetal, lblBesteScore, lblBesteScoreGetal);
 
+        HBox hBoxLabels = new HBox(10, lblHuidigeScore, lblHuidigeScoreGetal, lblBesteScore, lblBesteScoreGetal);
+        HBox hBoxBtn = new HBox(5, btnTerug, btnHighscore, btnRestart);
+
+        this.setBottom(hBoxBtn);
         this.setTop(hBoxLabels);
+
+        btnRestart.setFocusTraversable(false);
+        btnTerug.setFocusTraversable(false);
+        btnHighscore.setFocusTraversable(false);
+
+        hBoxBtn.setPadding(new Insets(0, 0, 0, 135));
+
         BorderPane.setAlignment(btnRestart, Pos.BOTTOM_LEFT);
         BorderPane.setMargin(btnRestart,new Insets(0,0,0,250));
+
         grid.setPrefWidth(GRID_WIDTH);
         grid.setMaxWidth(GRID_WIDTH);
         grid.setPrefHeight(GRID_HEIGHT);
@@ -66,7 +99,30 @@ public class SpelView extends BorderPane {
         grid.setBackground(new Background(new BackgroundFill(Color.rgb(187, 173, 160),new CornerRadii(15.0),new Insets(0))));
         grid.setPadding(new Insets(10));
         this.setPadding(new Insets(20));
+
+        DropShadow shadow = new DropShadow();
+        //voegt de shadow erbij wanneer je op de knop bent
+        this.btnTerug.addEventHandler(MouseEvent.MOUSE_ENTERED,
+                new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent e) {
+                        btnTerug.setEffect(shadow);
+                    }
+                });
+        this.btnTerug.addEventHandler(MouseEvent.MOUSE_EXITED,
+                new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent e) {
+                        btnTerug.setEffect(null);
+                    }
+                });
+
+        valueLabels.setBorder(new Border(new BorderStroke(Color.BLACK,
+                BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+
+
         displayGrid();
+
 
         this.setCenter(grid);
         this.setBackground(new Background(new BackgroundFill(Color.rgb(250, 248, 239), new CornerRadii(0), new Insets(0))));
@@ -141,4 +197,15 @@ public class SpelView extends BorderPane {
         return Color.rgb(205, 193, 180);
     }
 
+    public Button getBtnRestart() {
+        return btnRestart;
+    }
+
+    public Button getBtnTerug() {
+        return btnTerug;
+    }
+
+    public Button getBtnHighscore() {
+        return btnHighscore;
+    }
 }
