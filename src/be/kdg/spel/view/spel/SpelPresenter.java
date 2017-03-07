@@ -79,7 +79,7 @@ public class SpelPresenter {
         }
     }
 
-    // TODO: moveTiles methode...
+
     private void moveTiles(Richting r) {
         switch (r) {
             case BOVEN:
@@ -93,7 +93,6 @@ public class SpelPresenter {
                         if (y != 0) {
                             if (view.getTileValue(x, y).getText().equals(view.getTileValue(x, y - 1).getText()) &&
                                     !view.getTileValue(x, y).getText().equals("")) {
-
                                 view.getTileValue(x, y - 1).setText(mergeTiles(view.getTileValue(x, y).getText(),
                                         view.getTileValue(x, y - 1).getText()));
                                 view.getTileValue(x, y).setText("");
@@ -236,7 +235,6 @@ public class SpelPresenter {
                         if (x != 3) {
                             if (view.getTileValue(x, y).getText().equals(view.getTileValue(x + 1, y).getText()) &&
                                     !view.getTileValue(x, y).getText().equals("")) {
-
                                 view.getTileValue(x + 1, y).setText(mergeTiles(view.getTileValue(x, y).getText(),
                                         view.getTileValue(x + 1, y).getText()));
                                 view.getTileValue(x, y).setText("");

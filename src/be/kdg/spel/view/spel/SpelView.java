@@ -82,16 +82,30 @@ public class SpelView extends BorderPane {
                 stack[x][y].setMinWidth(TILE_WIDTH);
                 stack[x][y].setBackground(new Background(new BackgroundFill(Color.rgb(238, 228, 218), new CornerRadii(10), new Insets(0))));
                 lblTileValue[x][y] = new Label();
-                stack[x][y].getChildren().add(lblTileValue[x][y]);
+
+                /*if (!lblTileValue[x][y].getText().isEmpty()|| !lblTileValue[x][y].getText().equals("") ){
+                    stack[x][y].getChildren().add(createTile(x,y));
+                }*/
+                stack[x][y].getChildren().addAll(createTile(x, y), lblTileValue[x][y]);
+
                 grid.add(stack[x][y], x, y);
             }
         }
     }
 
-    private Rectangle createTile(){
-        Rectangle tile = new Rectangle(TILE_WIDTH,TILE_HEIGHT);
-        tile.setFill(Color.rgb(238, 228, 218));
+    private void addTile(int x, int y) {
+        if (!lblTileValue[x][y].getText().isEmpty() || !lblTileValue[x][y].getText().equals("")) {
 
+        }
+    }
+
+    Rectangle createTile(int x, int y) {
+        Rectangle tile = new Rectangle(TILE_WIDTH,TILE_HEIGHT);
+        if (!lblTileValue[x][y].getText().equals("") || !lblTileValue[x][y].getText().isEmpty()) {
+            tile.setFill(getbackgroundtile(Integer.parseInt(lblTileValue[x][y].getText())));
+        } else {
+            tile.setFill(Color.rgb(238, 228, 218));
+        }
         tile.setArcWidth(15.0);
         tile.setArcHeight(15.0);
         return tile;
@@ -101,7 +115,7 @@ public class SpelView extends BorderPane {
         return grid;
     }
 
-    public StackPane getStack(int x, int y) {
+    StackPane getStack(int x, int y) {
         return stack[x][y];
     }
 
