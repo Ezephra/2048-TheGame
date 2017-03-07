@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 
 
@@ -26,7 +27,7 @@ public class SpelView extends BorderPane {
     private Button btnRestart;
     private Label[][] lblTileValue;
     private GridPane grid;
-    private StackPane stack;
+    private StackPane[][] stack;
 
     public SpelView() {
         initialiseNodes();
@@ -44,7 +45,7 @@ public class SpelView extends BorderPane {
         lblTileValue = new Label[4][4];
 
         grid = new GridPane();
-        stack = new StackPane();
+        stack = new StackPane[4][4];
 
     }
 
@@ -71,15 +72,19 @@ public class SpelView extends BorderPane {
         this.setCenter(grid);
         this.setBackground(new Background(new BackgroundFill(Color.rgb(250, 248, 239), new CornerRadii(0), new Insets(0))));
 
+
     }
 
     private void displayGrid() {
         for (int x = 0; x < 4; x++) {
             for (int y = 0; y < 4; y++) {
-                stack = new StackPane();
+                stack[x][y] = new StackPane();
+                stack[x][y].setMinHeight(TILE_HEIGHT);
+                stack[x][y].setMinWidth(TILE_WIDTH);
+                stack[x][y].setBackground(new Background(new BackgroundFill(Color.rgb(238, 228, 218), new CornerRadii(10), new Insets(0))));
                 lblTileValue[x][y] = new Label();
-                stack.getChildren().addAll(createTile(), lblTileValue[x][y]);
-                grid.add(stack, x, y);
+                stack[x][y].getChildren().add(lblTileValue[x][y]);
+                grid.add(stack[x][y], x, y);
             }
         }
     }
@@ -87,6 +92,7 @@ public class SpelView extends BorderPane {
     private Rectangle createTile(){
         Rectangle tile = new Rectangle(TILE_WIDTH,TILE_HEIGHT);
         tile.setFill(Color.rgb(238, 228, 218));
+
         tile.setArcWidth(15.0);
         tile.setArcHeight(15.0);
         return tile;
@@ -96,29 +102,44 @@ public class SpelView extends BorderPane {
         return grid;
     }
 
-    public StackPane getStack() {
-        return stack;
+    public StackPane getStack(int x, int y) {
+        return stack[x][y];
     }
 
     Label getTileValue(int x, int y) {
         return lblTileValue[x][y];
     }
 
-    public Background getbackgroundtile(int value) {
+    public Label getLblHuidigeScoreGetal() {
+        return lblHuidigeScoreGetal;
+    }
+
+    public Paint getbackgroundtile(int value) {
         switch (value) {
-            case 2:    return new Background(new BackgroundFill(Color.rgb(238,228,218),CornerRadii.EMPTY, Insets.EMPTY));
-            case 4:    return new Background(new BackgroundFill(Color.rgb(237,224,200),CornerRadii.EMPTY, Insets.EMPTY));
-            case 8:    return new Background(new BackgroundFill(Color.rgb(242,177,121),CornerRadii.EMPTY, Insets.EMPTY));
-            case 16:   return new Background(new BackgroundFill(Color.rgb(245,149,99),CornerRadii.EMPTY, Insets.EMPTY));
-            case 32:   return new Background(new BackgroundFill(Color.rgb(246,124,95),CornerRadii.EMPTY, Insets.EMPTY));
-            case 64:   return new Background(new BackgroundFill(Color.rgb(246,94,59),CornerRadii.EMPTY, Insets.EMPTY));
-            case 128:  return new Background(new BackgroundFill(Color.rgb(237,207,114),CornerRadii.EMPTY, Insets.EMPTY));
-            case 256:  return new Background(new BackgroundFill(Color.rgb(237,204,97),CornerRadii.EMPTY, Insets.EMPTY));
-            case 512:  return new Background(new BackgroundFill(Color.rgb(237,200,80),CornerRadii.EMPTY, Insets.EMPTY));
-            case 1024: return new Background(new BackgroundFill(Color.rgb(237,197,63),CornerRadii.EMPTY, Insets.EMPTY));
-            case 2048: return new Background(new BackgroundFill(Color.rgb(237,194,46),CornerRadii.EMPTY, Insets.EMPTY));
+            case 2:
+                return Color.rgb(238, 228, 218);
+            case 4:
+                return Color.rgb(237, 224, 200);
+            case 8:
+                return Color.rgb(242, 177, 121);
+            case 16:
+                return Color.rgb(245, 149, 99);
+            case 32:
+                return Color.rgb(246, 124, 95);
+            case 64:
+                return Color.rgb(246, 94, 59);
+            case 128:
+                return Color.rgb(237, 207, 114);
+            case 256:
+                return Color.rgb(237, 204, 97);
+            case 512:
+                return Color.rgb(237, 200, 80);
+            case 1024:
+                return Color.rgb(237, 197, 63);
+            case 2048:
+                return Color.rgb(237, 194, 46);
         }
-        return new Background(new BackgroundFill(Color.rgb(205,193,180),CornerRadii.EMPTY, Insets.EMPTY));
+        return Color.rgb(205, 193, 180);
     }
 
 }
