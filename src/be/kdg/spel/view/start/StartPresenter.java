@@ -2,6 +2,8 @@ package be.kdg.spel.view.start;
 
 import be.kdg.spel.model.Spel;
 import be.kdg.spel.model.Start;
+import be.kdg.spel.view.gebruikersnaam.GebruikerPresenter;
+import be.kdg.spel.view.gebruikersnaam.GebruikerView;
 import be.kdg.spel.view.spel.SpelPresenter;
 import be.kdg.spel.view.spel.SpelView;
 import javafx.application.Platform;
@@ -44,26 +46,24 @@ public class StartPresenter {
         view.getBtnStart().setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                SpelView spelView = new SpelView();
-                Spel model = new Spel();
-                SpelPresenter spelPresenter =
-                        new SpelPresenter(model, spelView);
-                view.getScene().setRoot(spelView);
+                GebruikerView gebruikerView = new GebruikerView();
+                GebruikerPresenter gebruikerPresenter =
+                        new GebruikerPresenter(gebruikerView);
+                view.getScene().setRoot(gebruikerView);
 
-                spelView.getScene().getWindow().sizeToScene();
             }
         });
 
 
     }
+
     private void updateView() {
 
     }
-    public void addWindowEventHandlers () {
+
+    public void addWindowEventHandlers() {
 
     }
-
-
 
 
 }

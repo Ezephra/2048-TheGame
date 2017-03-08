@@ -16,7 +16,6 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 
 
-
 /**
  * Created by Boyan & Elias on 8/02/2017.
  */
@@ -30,6 +29,7 @@ public class SpelView extends BorderPane {
     private Label lblBesteScore;
     private Label lblHuidigeScoreGetal;
     private Label lblBesteScoreGetal;
+    private Label lblGebruiker;
     private Button btnRestart;
     private Button btnTerug;
     private Button btnHighscore;
@@ -45,24 +45,28 @@ public class SpelView extends BorderPane {
 
     private void initialiseNodes() {
         lblBesteScore = new Label("Beste score:");
-        lblBesteScore.setPadding(new Insets(0,0,0,90));
+        lblBesteScore.setPadding(new Insets(0, 0, 0, 90));
         lblHuidigeScore = new Label("Huidige score:");
-        lblHuidigeScore.setPadding(new Insets(0,0,0,125));
+        lblHuidigeScore.setPadding(new Insets(0, 0, 0, 125));
         lblBesteScoreGetal = new Label("0");
         lblHuidigeScoreGetal = new Label("0");
+        lblHuidigeScore.setPadding(new Insets(0, 0, 0, 125));
+
+        lblGebruiker = new Label("lol");
+
         lblTileValue = new Label[4][4];
 
-        Image imageRestart = new Image("be/kdg/spel/view/spel/images/restart.png");
+        Image imageRestart = new Image("images/restart.png");
         btnRestart = new Button();
         btnRestart.setGraphic(new ImageView(imageRestart));
         btnRestart.setBackground(null);
 
-        Image imageHigh = new Image("be/kdg/spel/view/spel/images/highscore.png");
+        Image imageHigh = new Image("images/highscore.png");
         btnHighscore = new Button();
         btnHighscore.setGraphic(new ImageView(imageHigh));
         btnHighscore.setBackground(null);
 
-        Image imageBack = new Image("be/kdg/spel/view/spel/images/left.png");
+        Image imageBack = new Image("images/left.png");
         btnTerug = new Button();
         btnTerug.setGraphic(new ImageView(imageBack));
         btnTerug.setBackground(null);
@@ -72,10 +76,9 @@ public class SpelView extends BorderPane {
 
     }
 
-    //lol
     private void layoutNodes() {
 
-        HBox hBoxLabels = new HBox(10, lblHuidigeScore, lblHuidigeScoreGetal, lblBesteScore, lblBesteScoreGetal);
+        HBox hBoxLabels = new HBox(10, lblHuidigeScore, lblHuidigeScoreGetal, lblGebruiker, lblBesteScore, lblBesteScoreGetal);
         HBox hBoxBtn = new HBox(5, btnTerug, btnHighscore, btnRestart);
 
         this.setBottom(hBoxBtn);
@@ -85,10 +88,7 @@ public class SpelView extends BorderPane {
         btnTerug.setFocusTraversable(false);
         btnHighscore.setFocusTraversable(false);
 
-        hBoxBtn.setPadding(new Insets(0, 0, 0, 135));
-
-        BorderPane.setAlignment(btnRestart, Pos.BOTTOM_LEFT);
-        BorderPane.setMargin(btnRestart,new Insets(0,0,0,250));
+        hBoxBtn.setPadding(new Insets(0, 0, 0, 150));
 
         grid.setPrefWidth(GRID_WIDTH);
         grid.setMaxWidth(GRID_WIDTH);
@@ -96,7 +96,7 @@ public class SpelView extends BorderPane {
         grid.setMaxHeight(GRID_HEIGHT);
         grid.setHgap(10);
         grid.setVgap(10);
-        grid.setBackground(new Background(new BackgroundFill(Color.rgb(187, 173, 160),new CornerRadii(15.0),new Insets(0))));
+        grid.setBackground(new Background(new BackgroundFill(Color.rgb(187, 173, 160), new CornerRadii(15.0), new Insets(0))));
         grid.setPadding(new Insets(10));
         this.setPadding(new Insets(20));
 
@@ -144,8 +144,8 @@ public class SpelView extends BorderPane {
         }
     }
 
-    private Rectangle createTile(){
-        Rectangle tile = new Rectangle(TILE_WIDTH,TILE_HEIGHT);
+    private Rectangle createTile() {
+        Rectangle tile = new Rectangle(TILE_WIDTH, TILE_HEIGHT);
         tile.setFill(Color.rgb(238, 228, 218));
 
         tile.setArcWidth(15.0);
@@ -207,5 +207,13 @@ public class SpelView extends BorderPane {
 
     public Button getBtnHighscore() {
         return btnHighscore;
+    }
+
+    public Label getLblGebruiker() {
+        return lblGebruiker;
+    }
+
+    public void setLblGebruiker(Label lblGebruiker) {
+        this.lblGebruiker = lblGebruiker;
     }
 }
