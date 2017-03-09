@@ -68,7 +68,6 @@ public class StartView extends BorderPane {
         this.btnExit.setBackground(new Background(new BackgroundFill(Color.rgb(255, 184, 143), new CornerRadii(10), Insets.EMPTY)));
 
 
-
         DropShadow shadow = new DropShadow();
         //voegt de shadow erbij wanneer je op de knop bent
         this.btnStart.addEventHandler(MouseEvent.MOUSE_ENTERED,
