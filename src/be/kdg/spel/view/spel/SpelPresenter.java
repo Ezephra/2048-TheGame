@@ -86,7 +86,8 @@ public class SpelPresenter {
         xRandom = random.nextInt(4);
         yRandom = random.nextInt(4);
         while (view.getTileValue(xRandom,yRandom).getText().equals("")){
-            // // TODO: 5/03/2017 leeg plaats
+            xRandom = random.nextInt(4);
+            yRandom = random.nextInt(4);
             view.getTileValue(xRandom, yRandom).setText(Integer.toString(randomGetal));
             break;
         }
