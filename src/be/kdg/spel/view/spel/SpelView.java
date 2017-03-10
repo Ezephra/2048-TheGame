@@ -1,6 +1,7 @@
 package be.kdg.spel.view.spel;
 
 
+import be.kdg.spel.model.Spel;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -14,6 +15,9 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -34,6 +38,7 @@ public class SpelView extends BorderPane {
     private Button btnTerug;
     private Button btnHighscore;
 
+
     private Label[][] lblTileValue;
     private GridPane grid;
     private StackPane[][] stack;
@@ -41,7 +46,9 @@ public class SpelView extends BorderPane {
     public SpelView() {
         initialiseNodes();
         layoutNodes();
+
     }
+
 
     private void initialiseNodes() {
         lblBesteScore = new Label("Beste score:");
@@ -126,8 +133,6 @@ public class SpelView extends BorderPane {
 
         this.setCenter(grid);
         this.setBackground(new Background(new BackgroundFill(Color.rgb(250, 248, 239), new CornerRadii(0), new Insets(0))));
-
-
     }
 
     private void displayGrid() {
@@ -216,4 +221,5 @@ public class SpelView extends BorderPane {
     public void setLblGebruiker(Label lblGebruiker) {
         this.lblGebruiker = lblGebruiker;
     }
+
 }

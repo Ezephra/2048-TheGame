@@ -25,9 +25,11 @@ public class GebruikerPresenter {
         view.getBtnVolgende().setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                Gebruikernaam gebruikernaam = new Gebruikernaam(view.getTxtGebruikernaam());
                 SpelView spelView = new SpelView();
                 Spel spel = new Spel();
-                SpelPresenter spelPresenter = new SpelPresenter(spel, spelView);
+                SpelPresenter spelPresenter = new SpelPresenter(spel, spelView, gebruikernaam);
+
                 view.getScene().setRoot(spelView);
 
             }

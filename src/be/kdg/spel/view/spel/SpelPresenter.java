@@ -5,20 +5,24 @@ import be.kdg.spel.model.Richting;
 import be.kdg.spel.model.Spel;
 import be.kdg.spel.view.start.StartPresenter;
 import be.kdg.spel.view.start.StartView;
+import com.sun.org.apache.bcel.internal.generic.GETFIELD;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyEvent;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
  * Created by Boyan & Elias on 8/02/2017.
  */
 public class SpelPresenter {
+    Gebruikernaam naam;
+    List<Integer> numbers = new ArrayList<>();
     private Spel model;
     private SpelView view;
     private Random random;
-
     private int x;
     private int y;
     private int xRandom;
@@ -27,9 +31,10 @@ public class SpelPresenter {
     private boolean isVerloren = false;
 
 
-    public SpelPresenter(Spel model, SpelView view) {
+    public SpelPresenter(Spel model, SpelView view, Gebruikernaam naam) {
         this.model = model;
         this.view = view;
+        this.naam = naam;
         addEventHandelers();
         updateView();
     }
@@ -77,7 +82,15 @@ public class SpelPresenter {
         addRandomTile();
         addRandomTile();
 
+        view.setLblGebruiker(naam.getNaam());
 
+        for (int i = 0; i < 2; i++) {
+            numbers.add(model.randomTile());
+        }
+
+        for (Integer number : numbers) {
+            view.getbackgroundtile(number);
+        }
     }
 
     private void addRandomTile() {
