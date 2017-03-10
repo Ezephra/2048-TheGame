@@ -1,5 +1,6 @@
 package be.kdg.spel.view.spel;
 
+import be.kdg.spel.model.Gebruikernaam;
 import be.kdg.spel.model.Richting;
 import be.kdg.spel.model.Spel;
 import be.kdg.spel.view.start.StartPresenter;
@@ -32,6 +33,7 @@ public class SpelPresenter {
         addEventHandelers();
         updateView();
     }
+
     private void addEventHandelers() {
         view.getGrid().setFocusTraversable(true);
         view.getGrid().setOnKeyPressed(new EventHandler<KeyEvent>() {
@@ -65,7 +67,6 @@ public class SpelPresenter {
                 StartView startView = new StartView();
                 StartPresenter spelPresenter = new StartPresenter(startView);
                 view.getScene().setRoot(startView);
-                startView.getScene().getWindow().sizeToScene();
             }
         });
 
@@ -79,21 +80,20 @@ public class SpelPresenter {
 
     }
 
-    private void addRandomTile(){
+    private void addRandomTile() {
         this.random = new Random();
         int randomGetal = model.randomTile();
 
         xRandom = random.nextInt(4);
         yRandom = random.nextInt(4);
-        while (view.getTileValue(xRandom,yRandom).getText().equals("")){
-            xRandom = random.nextInt(4);
-            yRandom = random.nextInt(4);
+        while (view.getTileValue(xRandom, yRandom).getText().equals("")) {
+            // // TODO: 5/03/2017 leeg plaats
             view.getTileValue(xRandom, yRandom).setText(Integer.toString(randomGetal));
             break;
         }
     }
 
-
+    // TODO: moveTiles methode...
     private void moveTiles(Richting r) {
         switch (r) {
             case BOVEN:
@@ -107,6 +107,7 @@ public class SpelPresenter {
                         if (y != 0) {
                             if (view.getTileValue(x, y).getText().equals(view.getTileValue(x, y - 1).getText()) &&
                                     !view.getTileValue(x, y).getText().equals("")) {
+
                                 view.getTileValue(x, y - 1).setText(mergeTiles(view.getTileValue(x, y).getText(),
                                         view.getTileValue(x, y - 1).getText()));
                                 view.getTileValue(x, y).setText("");
@@ -249,6 +250,7 @@ public class SpelPresenter {
                         if (x != 3) {
                             if (view.getTileValue(x, y).getText().equals(view.getTileValue(x + 1, y).getText()) &&
                                     !view.getTileValue(x, y).getText().equals("")) {
+
                                 view.getTileValue(x + 1, y).setText(mergeTiles(view.getTileValue(x, y).getText(),
                                         view.getTileValue(x + 1, y).getText()));
                                 view.getTileValue(x, y).setText("");
@@ -306,5 +308,6 @@ public class SpelPresenter {
         view.getLblHuidigeScoreGetal().setText(Integer.toString(scoreGetal));
         return Integer.toString(otherValue);
     }
+
 
 }
