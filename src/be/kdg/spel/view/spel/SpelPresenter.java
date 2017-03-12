@@ -3,11 +3,15 @@ package be.kdg.spel.view.spel;
 import be.kdg.spel.model.Gebruikernaam;
 import be.kdg.spel.model.Richting;
 import be.kdg.spel.model.Spel;
+import be.kdg.spel.model.SpelException;
 import be.kdg.spel.view.start.StartPresenter;
 import be.kdg.spel.view.start.StartView;
 import com.sun.org.apache.bcel.internal.generic.GETFIELD;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.input.KeyEvent;
 
 import java.util.ArrayList;
@@ -66,15 +70,50 @@ public class SpelPresenter {
             }
         });
 
-        view.getBtnTerug().setOnAction(new EventHandler<ActionEvent>() {
+        view.getMiLoad().setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                StartView startView = new StartView();
-                StartPresenter spelPresenter = new StartPresenter(startView);
-                view.getScene().setRoot(startView);
+                try {
+                    //// TODO: save methode maken
+                } catch (SpelException se) {
+                    Alert alertSave = new Alert(Alert.AlertType.ERROR);
+                    alertSave.setTitle("Saven mislukt!");
+                    alertSave.setContentText(se.getMessage());
+                    alertSave.showAndWait();
+                }
             }
         });
 
+        view.getMiExit().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Alert alertExit = new Alert(Alert.AlertType.WARNING);
+                alertExit.setTitle("Spel saven?");
+                alertExit.setContentText("Wil je de huidige spel opslaan?");
+                alertExit.getButtonTypes().clear();
+                ButtonType ja = new ButtonType("Yes");
+                ButtonType nee = new ButtonType("No");
+                ButtonType cansel = new ButtonType("Cancel");
+                alertExit.getButtonTypes().addAll(ja, nee, cansel);
+                alertExit.showAndWait();
+
+                if (alertExit.getResult().equals(ja)) {
+                    try {
+                        // TODO: save methode oproepen
+
+                    } catch (SpelException se) {
+                        alertExit = new Alert(Alert.AlertType.ERROR);
+                        alertExit.setTitle("Saven mislukt!");
+                        alertExit.setContentText(se.getMessage());
+                        alertExit.showAndWait();
+                    }
+                } else if (alertExit.getResult().equals(nee)) {
+                    Platform.exit();
+                } else if (alertExit.getResult().equals(cansel)) {
+                    event.consume();
+                }
+            }
+        });
     }
 
 
