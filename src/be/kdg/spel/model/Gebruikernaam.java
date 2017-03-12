@@ -19,7 +19,6 @@ public class Gebruikernaam {
         return lblNaam;
     }
 
-
     public void setNaam(String naam) {
         this.naam = naam;
     }

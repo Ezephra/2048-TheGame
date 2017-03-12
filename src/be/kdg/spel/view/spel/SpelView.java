@@ -88,7 +88,7 @@ public class SpelView extends BorderPane {
         HBox hBoxLabels = new HBox(10, lblHuidigeScore, lblHuidigeScoreGetal, lblGebruiker, lblBesteScore, lblBesteScoreGetal);
 
         HBox hBoxBtn = new HBox(5, btnHighscore, btnRestart);
-        hBoxBtn.setPadding(new Insets(0, 0, 0, 100));
+        hBoxBtn.setPadding(new Insets(0, 0, 0, 210));
 
         VBox vBoxLabelGrid = new VBox(10, hBoxLabels, grid);
         vBoxLabelGrid.setPadding(new Insets(5, 0, 0, 100));
