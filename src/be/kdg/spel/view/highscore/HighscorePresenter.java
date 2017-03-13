@@ -1,6 +1,7 @@
 package be.kdg.spel.view.highscore;
 
 import be.kdg.spel.model.HighscoreModel;
+import be.kdg.spel.model.Highscores;
 import be.kdg.spel.view.start.StartPresenter;
 import be.kdg.spel.view.start.StartView;
 import javafx.event.ActionEvent;
@@ -10,10 +11,10 @@ import javafx.event.EventHandler;
  * Created by boyan on 8/02/2017.
  */
 public class HighscorePresenter {
-    private HighscoreModel model;
+    private Highscores model;
     private HighscoreView view;
 
-    public HighscorePresenter(HighscoreModel model, HighscoreView view) {
+    public HighscorePresenter(Highscores model, HighscoreView view) {
         this.model = model;
         this.view = view;
 
@@ -35,6 +36,10 @@ public class HighscorePresenter {
 
     // TODO: Vul de view met de highscores uit het tekstbestand
     private void updateView() {
-        model.getHighscore();
+        model.inlezenHighscore();
+        for (int i = 0; i < 10; i++) {
+            view.getNaamLabels(i).setText(model.getNaam(i));
+            view.getScoreLabels(i).setText(model.getScores(i));
+        }
     }
 }

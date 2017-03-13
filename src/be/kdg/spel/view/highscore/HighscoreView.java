@@ -89,12 +89,12 @@ public class HighscoreView extends BorderPane {
                 });
     }
 
-    Label[] getNaamLabels() {
-        return namen;
+    Label getNaamLabels(int i) {
+        return namen[i];
     }
 
-    Label[] getScoreLabels() {
-        return scores;
+    Label getScoreLabels(int i) {
+        return scores[i];
     }
 
     public Button getBtnTerug() {

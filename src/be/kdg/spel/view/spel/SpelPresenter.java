@@ -22,7 +22,7 @@ import java.util.Random;
  * Created by Boyan & Elias on 8/02/2017.
  */
 public class SpelPresenter {
-    Gebruikernaam naam;
+    String naam;
     List<Integer> numbers = new ArrayList<>();
     private Spel model;
     private SpelView view;
@@ -35,10 +35,9 @@ public class SpelPresenter {
     private boolean isVerloren = false;
 
 
-    public SpelPresenter(Spel model, SpelView view, Gebruikernaam naam) {
+    public SpelPresenter(Spel model, SpelView view) {
         this.model = model;
         this.view = view;
-        this.naam = naam;
         addEventHandelers();
         updateView();
     }
@@ -98,6 +97,11 @@ public class SpelPresenter {
                 alertExit.showAndWait();
 
                 if (alertExit.getResult().equals(ja)) {
+
+                    //Zet deze twee bij de methode die nakijkt of er nog moves over zijn
+                    model.inlezenScores();
+                    model.scoreOpslaan();
+
                     try {
                         // TODO: save methode oproepen
 
@@ -120,8 +124,8 @@ public class SpelPresenter {
     private void updateView() {
         addRandomTile();
         addRandomTile();
-
-        view.setLblGebruiker(naam.getNaam());
+        model.naamInlezen();
+        view.getLblGebruiker().setText(model.getNaam());
 
         for (int i = 0; i < 2; i++) {
             numbers.add(model.randomTile());
@@ -130,6 +134,8 @@ public class SpelPresenter {
         for (Integer number : numbers) {
             view.getbackgroundtile(number);
         }
+        model.inlezenScores();
+        view.getLblBesteScoreGetal().setText(model.getBest());
     }
 
     private void addRandomTile() {
@@ -354,9 +360,12 @@ public class SpelPresenter {
             otherValue += currentValue;
             scoreGetal += otherValue;
             if (otherValue == 2048) {
+                model.inlezenScores();
+                model.scoreOpslaan();
                 this.isGewonnen = true;
             }
         }
+        model.setScore(scoreGetal);
         view.getLblHuidigeScoreGetal().setText(Integer.toString(scoreGetal));
         return Integer.toString(otherValue);
     }

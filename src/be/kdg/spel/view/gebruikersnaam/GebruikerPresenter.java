@@ -15,8 +15,9 @@ public class GebruikerPresenter {
     private Gebruikernaam model;
 
 
-    public GebruikerPresenter(GebruikerView view) {
+    public GebruikerPresenter(GebruikerView view, Gebruikernaam model) {
         this.view = view;
+        this.model = model;
         addEventHandelers();
         updateView();
     }
@@ -25,10 +26,11 @@ public class GebruikerPresenter {
         view.getBtnVolgende().setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                Gebruikernaam gebruikernaam = new Gebruikernaam(view.getTxtGebruikernaam());
+                model.setNaam(view.getTxtGebruikernaam());
+                model.onthoudNaam();
                 SpelView spelView = new SpelView();
                 Spel spel = new Spel();
-                SpelPresenter spelPresenter = new SpelPresenter(spel, spelView, gebruikernaam);
+                SpelPresenter spelPresenter = new SpelPresenter(spel, spelView);
 
                 view.getScene().setRoot(spelView);
 

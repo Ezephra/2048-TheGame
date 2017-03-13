@@ -236,4 +236,8 @@ public class SpelView extends BorderPane {
     public MenuItem getMiExit() {
         return miExit;
     }
+
+    public Label getLblBesteScoreGetal() {
+        return lblBesteScoreGetal;
+    }
 }
