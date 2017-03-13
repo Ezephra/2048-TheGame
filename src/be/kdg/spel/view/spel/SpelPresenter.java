@@ -91,6 +91,35 @@ public class SpelPresenter {
                         } else if (alertLose.getResult().equals(close)) {
                             Platform.exit();
                         }
+                    case W:
+                        view.getTileValue(xRandom, yRandom).setText("2048");
+                        try {
+                            Thread.sleep(2000);
+                            Alert alertWin = new Alert(Alert.AlertType.CONFIRMATION);
+                            alertWin.setTitle("You lose!!");
+                            alertWin.setContentText("Wilt u terug opnieuw spelen?");
+                            alertWin.getButtonTypes().clear();
+                            ButtonType restartwin = new ButtonType("Restart");
+                            ButtonType verder = new ButtonType("Verder spelen");
+                            ButtonType closeWin = new ButtonType("Close");
+                            alertWin.getButtonTypes().addAll(restartwin, verder, closeWin);
+                            alertWin.showAndWait();
+
+                            if (alertWin.getResult().equals(restartwin)) {
+
+                                SpelView spelView = new SpelView();
+                                Spel spelmodel = new Spel();
+                                SpelPresenter spelPresenter = new SpelPresenter(spelmodel, spelView);
+                                view.getScene().setRoot(spelView);
+
+                            } else if (alertWin.getResult().equals(closeWin)) {
+                                Platform.exit();
+                            } else if (alertWin.getResult().equals(verder)) {
+                                event.consume();
+                            }
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                 }
             }
         });
@@ -394,6 +423,7 @@ public class SpelPresenter {
         int currentValue = Integer.parseInt(currentTile);
         int otherValue = Integer.parseInt(destinationTile);
         int scoreGetal = Integer.parseInt(view.getLblHuidigeScoreGetal().getText());
+        int besteScore = Integer.parseInt(view.getLblBesteScoreGetal().getText());
 
         if (currentValue == otherValue) {
             otherValue += currentValue;
@@ -402,6 +432,10 @@ public class SpelPresenter {
                 model.inlezenScores();
                 model.scoreOpslaan();
                 this.isGewonnen = true;
+            }
+            if (scoreGetal > besteScore) {
+                besteScore = scoreGetal;
+                view.getLblBesteScoreGetal().setText(Integer.toString(besteScore));
             }
         }
         model.setScore(scoreGetal);
