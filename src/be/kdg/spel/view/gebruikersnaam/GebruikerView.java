@@ -74,8 +74,8 @@ public class GebruikerView extends BorderPane {
 
     }
 
-    public TextField getTxtGebruikernaam() {
-        return txtGebruikernaam;
+    public String getTxtGebruikernaam() {
+        return txtGebruikernaam.getText();
     }
 
     public Button getBtnVolgende() {

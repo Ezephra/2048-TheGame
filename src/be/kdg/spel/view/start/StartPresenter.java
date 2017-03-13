@@ -1,11 +1,11 @@
 package be.kdg.spel.view.start;
 
-import be.kdg.spel.model.Spel;
-import be.kdg.spel.model.Start;
+import be.kdg.spel.model.Gebruikernaam;
+import be.kdg.spel.model.Highscores;
 import be.kdg.spel.view.gebruikersnaam.GebruikerPresenter;
 import be.kdg.spel.view.gebruikersnaam.GebruikerView;
-import be.kdg.spel.view.spel.SpelPresenter;
-import be.kdg.spel.view.spel.SpelView;
+import be.kdg.spel.view.highscore.HighscorePresenter;
+import be.kdg.spel.view.highscore.HighscoreView;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -19,7 +19,6 @@ import java.util.Optional;
  */
 public class StartPresenter {
     private StartView view;
-    private Start model;
 
     public StartPresenter(StartView view) {
         this.view = view;
@@ -47,10 +46,22 @@ public class StartPresenter {
             @Override
             public void handle(ActionEvent event) {
                 GebruikerView gebruikerView = new GebruikerView();
+                Gebruikernaam gmodel = new Gebruikernaam();
                 GebruikerPresenter gebruikerPresenter =
-                        new GebruikerPresenter(gebruikerView);
+                        new GebruikerPresenter(gebruikerView, gmodel);
                 view.getScene().setRoot(gebruikerView);
 
+            }
+        });
+
+        view.getBtnHighscore().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                HighscoreView highscoreView = new HighscoreView();
+                Highscores highscoreModel = new Highscores();
+                HighscorePresenter highscorePresenter =
+                        new HighscorePresenter(highscoreModel, highscoreView);
+                view.getScene().setRoot(highscoreView);
             }
         });
 

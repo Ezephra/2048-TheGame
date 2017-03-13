@@ -3,22 +3,30 @@ package be.kdg.spel.view.spel;
 import be.kdg.spel.model.Gebruikernaam;
 import be.kdg.spel.model.Richting;
 import be.kdg.spel.model.Spel;
+import be.kdg.spel.model.SpelException;
 import be.kdg.spel.view.start.StartPresenter;
 import be.kdg.spel.view.start.StartView;
+import com.sun.org.apache.bcel.internal.generic.GETFIELD;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.input.KeyEvent;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
  * Created by Boyan & Elias on 8/02/2017.
  */
 public class SpelPresenter {
+    String naam;
+    List<Integer> numbers = new ArrayList<>();
     private Spel model;
     private SpelView view;
     private Random random;
-
     private int x;
     private int y;
     private int xRandom;
@@ -39,45 +47,133 @@ public class SpelPresenter {
         view.getGrid().setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
-                System.out.println(event.getCode().toString());
                 switch (event.getCode()) {
                     case UP:
+                        removeStyleTile();
                         moveTiles(Richting.BOVEN);
                         addRandomTile();
+                        setStyleTile();
                         break;
                     case DOWN:
+                        removeStyleTile();
                         moveTiles(Richting.BENEDEN);
                         addRandomTile();
+                        setStyleTile();
                         break;
                     case LEFT:
+                        removeStyleTile();
                         moveTiles(Richting.LINKS);
                         addRandomTile();
+                        setStyleTile();
                         break;
                     case RIGHT:
+                        removeStyleTile();
                         moveTiles(Richting.RECHTS);
                         addRandomTile();
+                        setStyleTile();
                         break;
+                    case L:
+                        Alert alertLose = new Alert(Alert.AlertType.CONFIRMATION);
+                        alertLose.setTitle("You lose!!");
+                        alertLose.setContentText("Wilt u terug opnieuw spelen?");
+                        alertLose.getButtonTypes().clear();
+                        ButtonType restart = new ButtonType("Restart");
+                        ButtonType close = new ButtonType("Close");
+                        alertLose.getButtonTypes().addAll(restart, close);
+                        alertLose.showAndWait();
+                        if (alertLose.getResult().equals(restart)) {
+
+                            SpelView spelView = new SpelView();
+                            Spel spelmodel = new Spel();
+                            SpelPresenter spelPresenter = new SpelPresenter(spelmodel, spelView);
+                            view.getScene().setRoot(spelView);
+
+                        } else if (alertLose.getResult().equals(close)) {
+                            Platform.exit();
+                        }
                 }
             }
         });
 
-        view.getBtnTerug().setOnAction(new EventHandler<ActionEvent>() {
+        view.getMiLoad().setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                StartView startView = new StartView();
-                StartPresenter spelPresenter = new StartPresenter(startView);
-                view.getScene().setRoot(startView);
+                try {
+                    //// TODO: save methode maken
+                } catch (SpelException se) {
+                    Alert alertSave = new Alert(Alert.AlertType.ERROR);
+                    alertSave.setTitle("Saven mislukt!");
+                    alertSave.setContentText(se.getMessage());
+                    alertSave.showAndWait();
+                }
             }
         });
 
+        view.getBtnRestart().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                SpelView spelView = new SpelView();
+                Spel spelmodel = new Spel();
+                SpelPresenter spelPresenter = new SpelPresenter(spelmodel, spelView);
+                view.getScene().setRoot(spelView);
+            }
+        });
+
+        view.getMiExit().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Alert alertExit = new Alert(Alert.AlertType.WARNING);
+                alertExit.setTitle("Spel saven?");
+                alertExit.setContentText("Wil je de huidige spel opslaan?");
+                alertExit.getButtonTypes().clear();
+                ButtonType ja = new ButtonType("Yes");
+                ButtonType nee = new ButtonType("No");
+                ButtonType cansel = new ButtonType("Cancel");
+                alertExit.getButtonTypes().addAll(ja, nee, cansel);
+                alertExit.showAndWait();
+
+                if (alertExit.getResult().equals(ja)) {
+
+                    //Zet deze twee bij de methode die nakijkt of er nog moves over zijn
+
+
+                    try {
+                        // TODO: save methode oproepen
+                        model.inlezenScores();
+                        model.scoreOpslaan();
+
+                        Platform.exit();
+                    } catch (SpelException se) {
+                        alertExit = new Alert(Alert.AlertType.ERROR);
+                        alertExit.setTitle("Saven mislukt!");
+                        alertExit.setContentText(se.getMessage());
+                        alertExit.showAndWait();
+                    }
+                } else if (alertExit.getResult().equals(nee)) {
+                    Platform.exit();
+                } else if (alertExit.getResult().equals(cansel)) {
+                    event.consume();
+                }
+            }
+        });
     }
 
 
     private void updateView() {
         addRandomTile();
         addRandomTile();
+        model.naamInlezen();
+        view.getLblGebruiker().setText(model.getNaam());
 
+        for (int i = 0; i < 2; i++) {
+            numbers.add(model.randomTile());
+        }
 
+        for (Integer number : numbers) {
+            view.getbackgroundtile(number);
+        }
+        model.inlezenScores();
+        view.getLblBesteScoreGetal().setText(model.getBest());
     }
 
     private void addRandomTile() {
@@ -89,6 +185,7 @@ public class SpelPresenter {
         while (view.getTileValue(xRandom, yRandom).getText().equals("")) {
             // // TODO: 5/03/2017 leeg plaats
             view.getTileValue(xRandom, yRandom).setText(Integer.toString(randomGetal));
+            setStyleTile();
             break;
         }
     }
@@ -302,11 +399,38 @@ public class SpelPresenter {
             otherValue += currentValue;
             scoreGetal += otherValue;
             if (otherValue == 2048) {
+                model.inlezenScores();
+                model.scoreOpslaan();
                 this.isGewonnen = true;
             }
         }
+        model.setScore(scoreGetal);
         view.getLblHuidigeScoreGetal().setText(Integer.toString(scoreGetal));
         return Integer.toString(otherValue);
+    }
+
+
+    private void setStyleTile() {
+        for (int x = 0; x < 4; x++) {
+            for (int y = 0; y < 4; y++) {
+                if (!view.getTileValue(x, y).getText().equals("")) {
+                    int value = Integer.parseInt(view.getTileValue(x, y).getText());
+                    view.getTileValue(x, y).getStyleClass().add("game-tile-" + Integer.toString(value));
+                    view.getStack(x, y).getStyleClass().add("game-tile-" + Integer.toString(value));
+                }
+            }
+        }
+    }
+
+    private void removeStyleTile() {
+        for (int x = 0; x < 4; x++) {
+            for (int y = 0; y < 4; y++) {
+                if (!view.getTileValue(x, y).getText().equals("")) {
+                    view.getTileValue(x, y).getStyleClass().clear();
+                    view.getStack(x, y).getStyleClass().clear();
+                }
+            }
+        }
     }
 
 
