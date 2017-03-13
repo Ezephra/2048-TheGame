@@ -1,6 +1,6 @@
 package be.kdg.spel.view.highscore;
 
-import be.kdg.spel.model.Highscore;
+import be.kdg.spel.model.Highscores;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -31,8 +31,8 @@ public class HighscoreView extends BorderPane {
     private void initialiseNodes() {
         naamKop = new Label("Naam");
         scoreKop = new Label("Score");
-        namen = new Label[Highscore.AANTAL_HIGHSCORES];
-        scores = new Label[Highscore.AANTAL_HIGHSCORES];
+        namen = new Label[Highscores.AANTAL_HIGHSCORES];
+        scores = new Label[Highscores.AANTAL_HIGHSCORES];
 
         btnTerug = new Button();
         Image imageRestart = new Image("images/left.png");
@@ -40,7 +40,7 @@ public class HighscoreView extends BorderPane {
         btnTerug.setGraphic(new ImageView(imageRestart));
         btnTerug.setBackground(null);
 
-        for (int i = 0; i < Highscore.AANTAL_HIGHSCORES; i++) {
+        for (int i = 0; i < Highscores.AANTAL_HIGHSCORES; i++) {
             namen[i] = new Label("");
             scores[i] = new Label("");
         }
@@ -64,7 +64,7 @@ public class HighscoreView extends BorderPane {
         gridPane.add(naamKop, 0, 0);
         gridPane.add(scoreKop, 1, 0);
 
-        for (int i = 0; i < Highscore.AANTAL_HIGHSCORES; i++) {
+        for (int i = 0; i < Highscores.AANTAL_HIGHSCORES; i++) {
             gridPane.add(namen[i], 0, (i + 1));
             gridPane.add(scores[i], 1, (i + 1));
             namen[i].setPadding(new Insets(5, 0, 5, 10));

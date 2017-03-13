@@ -1,6 +1,5 @@
 package be.kdg.spel.view.highscore;
 
-import be.kdg.spel.model.HighscoreModel;
 import be.kdg.spel.model.Highscores;
 import be.kdg.spel.view.start.StartPresenter;
 import be.kdg.spel.view.start.StartView;

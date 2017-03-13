@@ -48,6 +48,9 @@ public class SpelView extends BorderPane {
     private StackPane[][] stack;
 
     public SpelView() {
+
+        getStylesheets().add(getClass().getResource("TileStyle.css").toExternalForm());
+
         initialiseNodes();
         layoutNodes();
     }

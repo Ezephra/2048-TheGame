@@ -1,7 +1,6 @@
 package be.kdg.spel.view.start;
 
 import be.kdg.spel.model.Gebruikernaam;
-import be.kdg.spel.model.HighscoreModel;
 import be.kdg.spel.model.Highscores;
 import be.kdg.spel.view.gebruikersnaam.GebruikerPresenter;
 import be.kdg.spel.view.gebruikersnaam.GebruikerView;

@@ -47,24 +47,50 @@ public class SpelPresenter {
         view.getGrid().setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
-                System.out.println(event.getCode().toString());
                 switch (event.getCode()) {
                     case UP:
+                        removeStyleTile();
                         moveTiles(Richting.BOVEN);
                         addRandomTile();
+                        setStyleTile();
                         break;
                     case DOWN:
+                        removeStyleTile();
                         moveTiles(Richting.BENEDEN);
                         addRandomTile();
+                        setStyleTile();
                         break;
                     case LEFT:
+                        removeStyleTile();
                         moveTiles(Richting.LINKS);
                         addRandomTile();
+                        setStyleTile();
                         break;
                     case RIGHT:
+                        removeStyleTile();
                         moveTiles(Richting.RECHTS);
                         addRandomTile();
+                        setStyleTile();
                         break;
+                    case L:
+                        Alert alertLose = new Alert(Alert.AlertType.CONFIRMATION);
+                        alertLose.setTitle("You lose!!");
+                        alertLose.setContentText("Wilt u terug opnieuw spelen?");
+                        alertLose.getButtonTypes().clear();
+                        ButtonType restart = new ButtonType("Restart");
+                        ButtonType close = new ButtonType("Close");
+                        alertLose.getButtonTypes().addAll(restart, close);
+                        alertLose.showAndWait();
+                        if (alertLose.getResult().equals(restart)) {
+
+                            SpelView spelView = new SpelView();
+                            Spel spelmodel = new Spel();
+                            SpelPresenter spelPresenter = new SpelPresenter(spelmodel, spelView);
+                            view.getScene().setRoot(spelView);
+
+                        } else if (alertLose.getResult().equals(close)) {
+                            Platform.exit();
+                        }
                 }
             }
         });
@@ -80,6 +106,16 @@ public class SpelPresenter {
                     alertSave.setContentText(se.getMessage());
                     alertSave.showAndWait();
                 }
+            }
+        });
+
+        view.getBtnRestart().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                SpelView spelView = new SpelView();
+                Spel spelmodel = new Spel();
+                SpelPresenter spelPresenter = new SpelPresenter(spelmodel, spelView);
+                view.getScene().setRoot(spelView);
             }
         });
 
@@ -99,12 +135,14 @@ public class SpelPresenter {
                 if (alertExit.getResult().equals(ja)) {
 
                     //Zet deze twee bij de methode die nakijkt of er nog moves over zijn
-                    model.inlezenScores();
-                    model.scoreOpslaan();
+
 
                     try {
                         // TODO: save methode oproepen
+                        model.inlezenScores();
+                        model.scoreOpslaan();
 
+                        Platform.exit();
                     } catch (SpelException se) {
                         alertExit = new Alert(Alert.AlertType.ERROR);
                         alertExit.setTitle("Saven mislukt!");
@@ -147,6 +185,7 @@ public class SpelPresenter {
         while (view.getTileValue(xRandom, yRandom).getText().equals("")) {
             // // TODO: 5/03/2017 leeg plaats
             view.getTileValue(xRandom, yRandom).setText(Integer.toString(randomGetal));
+            setStyleTile();
             break;
         }
     }
@@ -368,6 +407,30 @@ public class SpelPresenter {
         model.setScore(scoreGetal);
         view.getLblHuidigeScoreGetal().setText(Integer.toString(scoreGetal));
         return Integer.toString(otherValue);
+    }
+
+
+    private void setStyleTile() {
+        for (int x = 0; x < 4; x++) {
+            for (int y = 0; y < 4; y++) {
+                if (!view.getTileValue(x, y).getText().equals("")) {
+                    int value = Integer.parseInt(view.getTileValue(x, y).getText());
+                    view.getTileValue(x, y).getStyleClass().add("game-tile-" + Integer.toString(value));
+                    view.getStack(x, y).getStyleClass().add("game-tile-" + Integer.toString(value));
+                }
+            }
+        }
+    }
+
+    private void removeStyleTile() {
+        for (int x = 0; x < 4; x++) {
+            for (int y = 0; y < 4; y++) {
+                if (!view.getTileValue(x, y).getText().equals("")) {
+                    view.getTileValue(x, y).getStyleClass().clear();
+                    view.getStack(x, y).getStyleClass().clear();
+                }
+            }
+        }
     }
 
 
