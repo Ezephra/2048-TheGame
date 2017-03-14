@@ -14,6 +14,8 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,8 +40,10 @@ public class SpelView extends BorderPane {
 
     private Button btnRestart;
     private Button btnHighscore;
+    private Button btnTerug;
 
     private MenuItem miLoad;
+    private MenuItem miSave;
     private MenuItem miExit;
 
 
@@ -58,14 +62,14 @@ public class SpelView extends BorderPane {
 
     private void initialiseNodes() {
         lblBesteScore = new Label("Beste score:");
-        lblBesteScore.setPadding(new Insets(0, 0, 0, 90));
         lblHuidigeScore = new Label("Huidige score:");
-        lblHuidigeScore.setPadding(new Insets(0, 0, 0, 30));
+
         lblBesteScoreGetal = new Label("0");
         lblHuidigeScoreGetal = new Label("0");
-        lblHuidigeScore.setPadding(new Insets(0, 0, 0, 30));
 
-        lblGebruiker = new Label("lol");
+        lblGebruiker = new Label("");
+        lblGebruiker.setFont(Font.font(null, FontWeight.BOLD, 20));
+        lblGebruiker.setAlignment(Pos.CENTER);
 
         lblTileValue = new Label[4][4];
 
@@ -79,24 +83,31 @@ public class SpelView extends BorderPane {
         btnHighscore.setGraphic(new ImageView(imageHigh));
         btnHighscore.setBackground(null);
 
+        Image imageTerug = new Image("images/left.png");
+        btnTerug = new Button();
+        btnTerug.setGraphic(new ImageView(imageTerug));
+        btnTerug.setBackground(null);
+
         grid = new GridPane();
         stack = new StackPane[4][4];
 
         miExit = new MenuItem("Exit");
         miLoad = new MenuItem("Load");
+        miSave = new MenuItem("Save");
     }
 
     private void layoutNodes() {
 
         HBox hBoxLabels = new HBox(10, lblHuidigeScore, lblHuidigeScoreGetal, lblGebruiker, lblBesteScore, lblBesteScoreGetal);
+        hBoxLabels.setAlignment(Pos.CENTER);
 
-        HBox hBoxBtn = new HBox(5, btnHighscore, btnRestart);
-        hBoxBtn.setPadding(new Insets(0, 0, 0, 210));
+        HBox hBoxBtn = new HBox(5, btnTerug, btnHighscore, btnRestart);
+        hBoxBtn.setAlignment(Pos.CENTER);
 
         VBox vBoxLabelGrid = new VBox(10, hBoxLabels, grid);
-        vBoxLabelGrid.setPadding(new Insets(5, 0, 0, 100));
+        vBoxLabelGrid.setAlignment(Pos.CENTER);
 
-        Menu menuGame = new Menu("Game", null, miLoad, miExit);
+        Menu menuGame = new Menu("Game", null, miSave, miLoad, miExit);
         MenuBar menuBar = new MenuBar(menuGame);
 
         this.setTop(menuBar);
@@ -106,6 +117,7 @@ public class SpelView extends BorderPane {
         this.setBackground(new Background(new BackgroundFill(Color.rgb(250, 248, 239), new CornerRadii(0), new Insets(0))));
 
         btnRestart.setFocusTraversable(false);
+        btnTerug.setFocusTraversable(false);
         btnHighscore.setFocusTraversable(false);
 
         this.setPadding(new Insets(0, 0, 20, 0));
@@ -123,7 +135,43 @@ public class SpelView extends BorderPane {
         grid.setPadding(new Insets(10));
 
         DropShadow shadow = new DropShadow();
+
         //voegt de shadow erbij wanneer je op de knop bent
+
+        this.btnRestart.addEventHandler(MouseEvent.MOUSE_ENTERED,
+                new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent e) {
+                        btnRestart.setEffect(shadow);
+                    }
+                });
+        this.btnRestart.addEventHandler(MouseEvent.MOUSE_EXITED,
+                new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent e) {
+                        btnRestart.setEffect(null);
+                    }
+                });
+
+        valueLabels.setBorder(new Border(new BorderStroke(Color.BLACK,
+                BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+
+
+        this.btnTerug.addEventHandler(MouseEvent.MOUSE_ENTERED,
+                new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent e) {
+                        btnTerug.setEffect(shadow);
+                    }
+                });
+        this.btnTerug.addEventHandler(MouseEvent.MOUSE_EXITED,
+                new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent e) {
+                        btnTerug.setEffect(null);
+                    }
+                });
+
         this.btnHighscore.addEventHandler(MouseEvent.MOUSE_ENTERED,
                 new EventHandler<MouseEvent>() {
                     @Override
@@ -139,8 +187,6 @@ public class SpelView extends BorderPane {
                     }
                 });
 
-        valueLabels.setBorder(new Border(new BorderStroke(Color.BLACK,
-                BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
 
 
         displayGrid();
@@ -242,5 +288,13 @@ public class SpelView extends BorderPane {
 
     public Label getLblBesteScoreGetal() {
         return lblBesteScoreGetal;
+    }
+
+    public Button getBtnTerug() {
+        return btnTerug;
+    }
+
+    public MenuItem getMiSave() {
+        return miSave;
     }
 }
