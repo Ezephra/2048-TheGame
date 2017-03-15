@@ -103,6 +103,7 @@ public class Spel {
         }
     }
 
+
     public String getBest() {
         return best;
     }
