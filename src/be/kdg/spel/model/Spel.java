@@ -1,5 +1,4 @@
 package be.kdg.spel.model;
-
 import java.io.*;
 import java.util.Random;
 

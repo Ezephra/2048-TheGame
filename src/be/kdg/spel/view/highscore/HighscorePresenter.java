@@ -28,6 +28,7 @@ public class HighscorePresenter {
                 StartView startView = new StartView();
                 StartPresenter startPresenter = new StartPresenter(startView);
                 view.getScene().setRoot(startView);
+
             }
         });
     }
