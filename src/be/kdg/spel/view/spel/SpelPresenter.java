@@ -93,8 +93,9 @@ public class SpelPresenter {
                         }
                     case W:
                         view.getTileValue(xRandom, yRandom).setText("2048");
+                        setStyleTile();
                         try {
-                            Thread.sleep(2000);
+                            Thread.sleep(500);
                             Alert alertWin = new Alert(Alert.AlertType.CONFIRMATION);
                             alertWin.setTitle("You lose!!");
                             alertWin.setContentText("Wilt u terug opnieuw spelen?");
@@ -450,6 +451,7 @@ public class SpelPresenter {
                 if (!view.getTileValue(x, y).getText().equals("")) {
                     int value = Integer.parseInt(view.getTileValue(x, y).getText());
                     view.getTileValue(x, y).getStyleClass().add("game-tile-" + Integer.toString(value));
+                    view.getTileValue(x,y).setBackground(null);
                     view.getStack(x, y).getStyleClass().add("game-tile-" + Integer.toString(value));
                 }
             }
