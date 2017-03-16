@@ -1,9 +1,8 @@
 package be.kdg.spel.view.spel;
 
-import be.kdg.spel.model.Gebruikernaam;
-import be.kdg.spel.model.Richting;
-import be.kdg.spel.model.Spel;
-import be.kdg.spel.model.SpelException;
+import be.kdg.spel.model.*;
+import be.kdg.spel.view.highscore.HighscorePresenter;
+import be.kdg.spel.view.highscore.HighscoreView;
 import be.kdg.spel.view.start.StartPresenter;
 import be.kdg.spel.view.start.StartView;
 import com.sun.org.apache.bcel.internal.generic.GETFIELD;
@@ -146,6 +145,35 @@ public class SpelPresenter {
                 Spel spelmodel = new Spel();
                 SpelPresenter spelPresenter = new SpelPresenter(spelmodel, spelView);
                 view.getScene().setRoot(spelView);
+            }
+        });
+
+        view.getBtnTerug().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                StartView startView = new StartView();
+                StartPresenter startPresenter = new StartPresenter(startView);
+                view.getScene().setRoot(startView);
+            }
+        });
+
+
+        view.getBtnHighscore().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                HighscoreView highscoreView = new HighscoreView();
+                Highscores model = new Highscores();
+                HighscorePresenter highscorePresenter = new HighscorePresenter(model, highscoreView);
+                view.getScene().setRoot(highscoreView);
+            }
+        });
+
+        view.getMiSave().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                model.inlezenScores();
+                model.scoreOpslaan();
+                Platform.exit();
             }
         });
 

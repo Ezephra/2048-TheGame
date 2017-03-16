@@ -2,10 +2,12 @@ package be.kdg.spel.view.gebruikersnaam;
 
 import be.kdg.spel.model.Gebruikernaam;
 import be.kdg.spel.model.Spel;
+import be.kdg.spel.model.SpelException;
 import be.kdg.spel.view.spel.SpelPresenter;
 import be.kdg.spel.view.spel.SpelView;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.control.Alert;
 
 /**
  * Created by boyan on 8/03/2017.
@@ -26,13 +28,23 @@ public class GebruikerPresenter {
         view.getBtnVolgende().setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                model.setNaam(view.getTxtGebruikernaam());
-                model.onthoudNaam();
-                SpelView spelView = new SpelView();
-                Spel spel = new Spel();
-                SpelPresenter spelPresenter = new SpelPresenter(spel, spelView);
-
-                view.getScene().setRoot(spelView);
+                Alert alertGeenGebruiker = new Alert(Alert.AlertType.WARNING);
+                try {
+                    if (!view.getTxtGebruikernaam().isEmpty()) {
+                        model.setNaam(view.getTxtGebruikernaam());
+                        model.onthoudNaam();
+                        SpelView spelView = new SpelView();
+                        Spel spel = new Spel();
+                        SpelPresenter spelPresenter = new SpelPresenter(spel, spelView);
+                        view.getScene().setRoot(spelView);
+                    } else {
+                        throw new SpelException("Geef een geldige gebruikersnaam in!");
+                    }
+                } catch (SpelException se) {
+                    alertGeenGebruiker.setTitle("Gebruikersnaam niet geldig!");
+                    alertGeenGebruiker.setContentText(se.getMessage());
+                    alertGeenGebruiker.showAndWait();
+                }
 
             }
         });

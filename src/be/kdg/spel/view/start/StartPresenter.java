@@ -57,8 +57,8 @@ public class StartPresenter {
         view.getBtnHighscore().setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                HighscoreView highscoreView = new HighscoreView();
                 Highscores highscoreModel = new Highscores();
+                HighscoreView highscoreView = new HighscoreView();
                 HighscorePresenter highscorePresenter =
                         new HighscorePresenter(highscoreModel, highscoreView);
                 view.getScene().setRoot(highscoreView);
