@@ -479,6 +479,7 @@ public class SpelPresenter {
                 if (!view.getTileValue(x, y).getText().equals("")) {
                     int value = Integer.parseInt(view.getTileValue(x, y).getText());
                     view.getTileValue(x, y).getStyleClass().add("game-tile-" + Integer.toString(value));
+                    view.getTileValue(x,y).setBackground(null);
                     view.getStack(x, y).getStyleClass().add("game-tile-" + Integer.toString(value));
                 }
             }
