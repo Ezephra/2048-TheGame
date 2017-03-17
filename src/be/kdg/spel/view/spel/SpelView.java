@@ -29,6 +29,7 @@ public class SpelView extends BorderPane {
     private static final double TILE_WIDTH = 90.0;
     private static final double GRID_WIDTH = 410.0;
     private static final double GRID_HEIGHT = 410.0;
+    private static final int MAX_TILES = 4;
 
     private GridPane valueLabels = new GridPane();
 
@@ -238,6 +239,9 @@ public class SpelView extends BorderPane {
         return btnRestart;
     }
 
+    public static int getMaxTiles() {
+        return MAX_TILES;
+    }
 
     Button getBtnHighscore() {
         return btnHighscore;

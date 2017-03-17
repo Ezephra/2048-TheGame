@@ -5,6 +5,7 @@ import be.kdg.spel.view.highscore.HighscorePresenter;
 import be.kdg.spel.view.highscore.HighscoreView;
 import be.kdg.spel.view.start.StartPresenter;
 import be.kdg.spel.view.start.StartView;
+import com.sun.org.apache.bcel.internal.generic.GETFIELD;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -21,18 +22,17 @@ import java.util.Random;
  * @author Elias & Boyan
  */
 public class SpelPresenter {
-    String naam;
     private List<Integer> numbers = new ArrayList<>();
     private Spel model;
     private SpelView view;
     private Random random;
-    private int x;
-    private int y;
     private int xRandom;
     private int yRandom;
-    private boolean isGewonnen = false;
-    private boolean isVerloren = false;
     private String[] ingelezen = new String[17];
+    private static final String SAVEDIR = "src/be/kdg/spel/files/";
+    private static final int MAX_TILE_X = 4;
+    private static final int MAX_TILE_Y = 4;
+
 
 
     public SpelPresenter(Spel model, SpelView view) {
@@ -53,74 +53,37 @@ public class SpelPresenter {
                         moveTiles(Richting.BOVEN);
                         addRandomTile();
                         setStyleTile();
+                        youLose();
+                        youWin();
                         break;
                     case DOWN:
                         removeStyleTile();
                         moveTiles(Richting.BENEDEN);
                         addRandomTile();
                         setStyleTile();
+                        youLose();
+                        youWin();
                         break;
                     case LEFT:
                         removeStyleTile();
                         moveTiles(Richting.LINKS);
                         addRandomTile();
                         setStyleTile();
+                        youLose();
+                        youWin();
                         break;
                     case RIGHT:
                         removeStyleTile();
                         moveTiles(Richting.RECHTS);
                         addRandomTile();
                         setStyleTile();
+                        youLose();
+                        youWin();
                         break;
-                    case L:
-                        Alert alertLose = new Alert(Alert.AlertType.CONFIRMATION);
-                        alertLose.setTitle("You lose!!");
-                        alertLose.setContentText("Wilt u terug opnieuw spelen?");
-                        alertLose.getButtonTypes().clear();
-                        ButtonType restart = new ButtonType("Restart");
-                        ButtonType close = new ButtonType("Close");
-                        alertLose.getButtonTypes().addAll(restart, close);
-                        alertLose.showAndWait();
-                        if (alertLose.getResult().equals(restart)) {
-
-                            SpelView spelView = new SpelView();
-                            Spel spelmodel = new Spel();
-                            SpelPresenter spelPresenter = new SpelPresenter(spelmodel, spelView);
-                            view.getScene().setRoot(spelView);
-
-                        } else if (alertLose.getResult().equals(close)) {
-                            Platform.exit();
-                        }
                     case W:
-                        view.getTileValue(xRandom, yRandom).setText("2048");
+                        view.getTileValue(xRandom, yRandom).setText("1024");
+                        view.getTileValue(xRandom, yRandom).setText("1024");
                         setStyleTile();
-                        try {
-                            Thread.sleep(500);
-                            Alert alertWin = new Alert(Alert.AlertType.CONFIRMATION);
-                            alertWin.setTitle("You lose!!");
-                            alertWin.setContentText("Wilt u terug opnieuw spelen?");
-                            alertWin.getButtonTypes().clear();
-                            ButtonType restartwin = new ButtonType("Restart");
-                            ButtonType verder = new ButtonType("Verder spelen");
-                            ButtonType closeWin = new ButtonType("Close");
-                            alertWin.getButtonTypes().addAll(restartwin, verder, closeWin);
-                            alertWin.showAndWait();
-
-                            if (alertWin.getResult().equals(restartwin)) {
-
-                                SpelView spelView = new SpelView();
-                                Spel spelmodel = new Spel();
-                                SpelPresenter spelPresenter = new SpelPresenter(spelmodel, spelView);
-                                view.getScene().setRoot(spelView);
-
-                            } else if (alertWin.getResult().equals(closeWin)) {
-                                Platform.exit();
-                            } else if (alertWin.getResult().equals(verder)) {
-                                event.consume();
-                            }
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
                 }
             }
         });
@@ -129,7 +92,8 @@ public class SpelPresenter {
             @Override
             public void handle(ActionEvent event) {
                 try {
-                    BufferedReader br = new BufferedReader(new FileReader(("files/" + view.getLblGebruiker().getText() + ".txt")));
+                    BufferedReader br = new BufferedReader(new FileReader((SAVEDIR
+                            + view.getLblGebruiker().getText() + ".txt")));
                     String lijn = br.readLine();
                     int i = 0;
                     while (lijn != null) {
@@ -167,7 +131,6 @@ public class SpelPresenter {
             }
         });
 
-
         view.getBtnHighscore().setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -185,9 +148,8 @@ public class SpelPresenter {
         view.getMiSave().setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-
-                try (PrintWriter pw = new PrintWriter(new BufferedWriter((new FileWriter("files/" + view.getLblGebruiker().getText() + ".txt"))))) {
-
+                try (PrintWriter pw = new PrintWriter(new BufferedWriter((new FileWriter(SAVEDIR
+                        + view.getLblGebruiker().getText() + ".txt"))))) {
                     pw.write(view.getLblGebruiker().getText() + "\n");
                     for (int i = 0; i < 4; i++) {
                         for (int j = 0; j < 4; j++) {
@@ -197,7 +159,6 @@ public class SpelPresenter {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
             }
         });
 
@@ -213,8 +174,8 @@ public class SpelPresenter {
                 ButtonType cansel = new ButtonType("Cancel");
                 alertExit.getButtonTypes().addAll(ja, nee, cansel);
                 alertExit.showAndWait();
-
                 if (alertExit.getResult().equals(ja)) {
+                    //Zet deze twee bij de methode die nakijkt of er nog moves over zijn
 
                     try {
                         model.inlezenScores();
@@ -236,52 +197,34 @@ public class SpelPresenter {
         });
     }
 
-
-    private void setSave(String[] inlezing) {
-        int getal = 1;
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 4; j++) {
-                view.getTileValue(i, j).setText(inlezing[getal]);
-                getal++;
-            }
-        }
-        setStyleTile();
-    }
-
     private void updateView() {
         addRandomTile();
         addRandomTile();
         model.naamInlezen();
         view.getLblGebruiker().setText(model.getNaam());
-
-        for (int i = 0; i < 2; i++) {
-            numbers.add(model.randomTile());
-        }
-
         model.inlezenScores();
         view.getLblBesteScoreGetal().setText(model.getBest());
+
     }
 
     private void addRandomTile() {
         this.random = new Random();
         int randomGetal = model.randomTile();
 
-        xRandom = random.nextInt(4);
-        yRandom = random.nextInt(4);
+        xRandom = random.nextInt(MAX_TILE_X);
+        yRandom = random.nextInt(MAX_TILE_Y);
         int conditionLimit = 1;
         while (!view.getTileValue(xRandom, yRandom).getText().equals("")) {
-            xRandom = random.nextInt(4);
-            yRandom = random.nextInt(4);
-            if (conditionLimit >= 16) {
+            xRandom = random.nextInt(MAX_TILE_X);
+            yRandom = random.nextInt(MAX_TILE_Y);
+            if (conditionLimit >= 16){
                 break;
             }
             conditionLimit++;
         }
-
-        if (view.getTileValue(xRandom, yRandom).getText().equals("")) {
+        if (view.getTileValue(xRandom,yRandom).getText().equals("")){
             view.getTileValue(xRandom, yRandom).setText(Integer.toString(randomGetal));
         }
-
         setStyleTile();
     }
 
@@ -290,8 +233,8 @@ public class SpelPresenter {
         switch (r) {
             case BOVEN:
                 //bij elke y kolom checked die elke vak of er plaats is.
-                for (int x = 0; x < 4; x++) {
-                    for (int y = 0; y < 4; y++) {
+                for (int x = 0; x < MAX_TILE_X; x++) {
+                    for (int y = 0; y < MAX_TILE_Y; y++) {
                         int checkLeeg = 0;
                         if (y == 0) {
                             continue;
@@ -338,8 +281,8 @@ public class SpelPresenter {
                 }
                 break;
             case BENEDEN:
-                for (int x = 0; x < 4; x++) {
-                    for (int y = 3; y >= 0; y--) {
+                for (int x = 0; x < MAX_TILE_X; x++) {
+                    for (int y = MAX_TILE_Y - 1; y >= 0; y--) {
                         int checkLeeg = 3;
                         if (y == 3) {
                             continue;
@@ -386,8 +329,8 @@ public class SpelPresenter {
                 }
                 break;
             case LINKS:
-                for (int x = 0; x < 4; x++) {
-                    for (int y = 0; y < 4; y++) {
+                for (int x = 0; x < MAX_TILE_X; x++) {
+                    for (int y = 0; y < MAX_TILE_Y; y++) {
                         int checkLeeg = 0;
                         if (x == 0) {
                             continue;
@@ -433,8 +376,8 @@ public class SpelPresenter {
                 }
                 break;
             case RECHTS:
-                for (int x = 3; x >= 0; x--) {
-                    for (int y = 0; y < 4; y++) {
+                for (int x = MAX_TILE_X - 1; x >= 0; x--) {
+                    for (int y = 0; y < MAX_TILE_Y; y++) {
                         int checkLeeg = 3;
                         if (x == 3) {
                             continue;
@@ -497,7 +440,6 @@ public class SpelPresenter {
             if (otherValue == 2048) {
                 model.inlezenScores();
                 model.scoreOpslaan();
-                this.isGewonnen = true;
             }
             if (scoreGetal > besteScore) {
                 besteScore = scoreGetal;
@@ -516,12 +458,12 @@ public class SpelPresenter {
 
 
     private void setStyleTile() {
-        for (int x = 0; x < 4; x++) {
-            for (int y = 0; y < 4; y++) {
+        for (int x = 0; x < MAX_TILE_X; x++) {
+            for (int y = 0; y < MAX_TILE_Y; y++) {
                 if (!view.getTileValue(x, y).getText().equals("")) {
                     int value = Integer.parseInt(view.getTileValue(x, y).getText());
                     view.getTileValue(x, y).getStyleClass().add("game-tile-" + Integer.toString(value));
-                    view.getTileValue(x, y).setBackground(null);
+                    view.getTileValue(x,y).setBackground(null);
                     view.getStack(x, y).getStyleClass().add("game-tile-" + Integer.toString(value));
                 }
             }
@@ -529,8 +471,8 @@ public class SpelPresenter {
     }
 
     private void removeStyleTile() {
-        for (int x = 0; x < 4; x++) {
-            for (int y = 0; y < 4; y++) {
+        for (int x = 0; x < MAX_TILE_X; x++) {
+            for (int y = 0; y < MAX_TILE_Y; y++) {
                 if (!view.getTileValue(x, y).getText().equals("")) {
                     view.getTileValue(x, y).getStyleClass().clear();
                     view.getStack(x, y).getStyleClass().clear();
@@ -539,5 +481,100 @@ public class SpelPresenter {
         }
     }
 
+    private void setSave(String[] inlezing){
+        int getal = 1;
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                view.getTileValue(i,j).setText(inlezing[getal]);
+                getal++;
+            }
+        }
+        setStyleTile();
+    }
 
+    private boolean horizontalCheck(){
+        for (int x = 0; x < MAX_TILE_X; x++) {
+            for (int y = 0; y < MAX_TILE_Y ; y++) {
+                if (y != MAX_TILE_Y - 1){
+                    String value2 = view.getTileValue(x,y + 1).getText();
+                    String value1 = view.getTileValue(x,y).getText();
+                    if (value1.equals("") || value2.equals("")) return false;
+                    if (value1.equals(value2)) return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    private boolean verticalCheck(){
+        for (int x = 0; x < MAX_TILE_X; x++) {
+            for (int y = 0; y < MAX_TILE_Y ; y++) {
+                if (x != MAX_TILE_X - 1){
+                    String value1 = view.getTileValue(x,y).getText();
+                    String value2 = view.getTileValue(x + 1,y).getText();
+                    if (value1.equals("") || value2.equals("")) return false;
+                    if (value1.equals(value2)) return false;
+                }
+            }
+        }
+        return true;
+    }
+    private void youLose(){
+        if (horizontalCheck() == true && verticalCheck() == true) {
+            Alert alertLose = new Alert(Alert.AlertType.CONFIRMATION);
+            alertLose.setTitle("You lose!!");
+            alertLose.setContentText("Wilt u terug opnieuw spelen?");
+            alertLose.getButtonTypes().clear();
+            ButtonType restart = new ButtonType("Restart");
+            ButtonType close = new ButtonType("Close");
+            alertLose.getButtonTypes().addAll(restart, close);
+            alertLose.showAndWait();
+            if (alertLose.getResult().equals(restart)) {
+                SpelView spelView = new SpelView();
+                Spel spelmodel = new Spel();
+                SpelPresenter spelPresenter = new SpelPresenter(spelmodel, spelView);
+                view.getScene().setRoot(spelView);
+
+            } else if (alertLose.getResult().equals(close)) {
+                Platform.exit();
+            }
+        }
+    }
+
+    private void youWin(){
+        for (int x = 0; x < MAX_TILE_X; x++) {
+            for (int y = 0; y < MAX_TILE_Y; y++) {
+                if (view.getTileValue(x,y).getText().equals("2048")){
+                    try {
+                        Thread.sleep(500);
+                        Alert alertWin = new Alert(Alert.AlertType.CONFIRMATION);
+                        alertWin.setTitle("You Win!!");
+                        alertWin.setContentText("Wilt u terug opnieuw spelen?");
+                        alertWin.getButtonTypes().clear();
+                        ButtonType restartwin = new ButtonType("Restart");
+                        ButtonType verder = new ButtonType("Verder spelen");
+                        ButtonType closeWin = new ButtonType("Spel Afsluiten");
+                        alertWin.getButtonTypes().addAll(restartwin, verder, closeWin);
+                        alertWin.showAndWait();
+
+                        if (alertWin.getResult().equals(restartwin)) {
+
+                            SpelView spelView = new SpelView();
+                            Spel spelmodel = new Spel();
+                            SpelPresenter spelPresenter = new SpelPresenter(spelmodel, spelView);
+                            view.getScene().setRoot(spelView);
+
+                        } else if (alertWin.getResult().equals(closeWin)) {
+                            Platform.exit();
+                        } else if (alertWin.getResult().equals(verder)) {
+                            alertWin.close();
+                        }
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+
+    }
 }

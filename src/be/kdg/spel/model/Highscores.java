@@ -12,6 +12,7 @@ public class Highscores {
     public final static int AANTAL_HIGHSCORES = 10;
     private String[] naam = new String[10];
     private String[] scores = new String[10];
+    private static final String SAVEDIR = "src/be/kdg/spel/files/";
 
     /**
      * Hier wordt telkens de gebruikersnaam samen met de highscore in de bestand ingelezen
@@ -20,7 +21,7 @@ public class Highscores {
 
     public void inlezenHighscore() {
         try {
-            BufferedReader br = new BufferedReader(new FileReader(("files/highscores.txt")));
+            BufferedReader br = new BufferedReader(new FileReader((SAVEDIR + "highscores.txt")));
             String lijn = br.readLine();
             int i = 0;
 
