@@ -13,7 +13,7 @@ import javafx.scene.text.Font;
 
 
 /**
- * Created by boyan on 7/02/2017.
+ *@author Elias & Boyan
  */
 public class StartView extends BorderPane {
     private Label lblTitel;

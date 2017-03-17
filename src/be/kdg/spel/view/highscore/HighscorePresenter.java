@@ -7,7 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 
 /**
- * Created by boyan on 8/02/2017.
+ * @author Elias & Boyan
  */
 public class HighscorePresenter {
     private Highscores model;
@@ -34,7 +34,9 @@ public class HighscorePresenter {
     }
 
 
-    // TODO: Vul de view met de highscores uit het tekstbestand
+    /**
+     * Vul de view met de highscores uit de tekstbestand dat opgevraagd word door de model
+     */
     private void updateView() {
         model.inlezenHighscore();
         for (int i = 0; i < 10; i++) {

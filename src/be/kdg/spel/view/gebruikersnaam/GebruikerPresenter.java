@@ -9,7 +9,7 @@ import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
 
 /**
- * Created by boyan on 8/03/2017.
+ * @author Elias & Boyan
  */
 public class GebruikerPresenter {
     private GebruikerView view;
@@ -23,7 +23,17 @@ public class GebruikerPresenter {
         updateView();
     }
 
+    /**
+     * Hier word gecontroleerd of de gebruiker wel een naam heeft in gegeven
+     * als u op de  button volgende klikt.
+     *
+     * @throws RuntimeException als de gebruiker geen naam ingeeft
+     */
+
+
     public void addEventHandelers() {
+
+
         view.getBtnVolgende().setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {

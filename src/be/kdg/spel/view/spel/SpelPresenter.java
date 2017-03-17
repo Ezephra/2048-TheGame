@@ -5,7 +5,6 @@ import be.kdg.spel.view.highscore.HighscorePresenter;
 import be.kdg.spel.view.highscore.HighscoreView;
 import be.kdg.spel.view.start.StartPresenter;
 import be.kdg.spel.view.start.StartView;
-import com.sun.org.apache.bcel.internal.generic.GETFIELD;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -19,7 +18,7 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * Created by Boyan & Elias on 8/02/2017.
+ * @author Elias & Boyan
  */
 public class SpelPresenter {
     String naam;
@@ -138,7 +137,7 @@ public class SpelPresenter {
                         lijn = br.readLine();
                         i++;
                     }
-                    if(ingelezen[0].equals(view.getLblGebruiker().getText())){
+                    if (ingelezen[0].equals(view.getLblGebruiker().getText())) {
                         setSave(ingelezen);
                     }
                 } catch (FileNotFoundException e) {
@@ -179,6 +178,10 @@ public class SpelPresenter {
             }
         });
 
+        /**
+         * Bij het saven van het spel gaat men de waardes dat op de gridpane staan 16 keer wegschrijven in bestand
+         */
+
         view.getMiSave().setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -188,7 +191,7 @@ public class SpelPresenter {
                     pw.write(view.getLblGebruiker().getText() + "\n");
                     for (int i = 0; i < 4; i++) {
                         for (int j = 0; j < 4; j++) {
-                            pw.write(view.getTileValue(i,j).getText() + "\n");
+                            pw.write(view.getTileValue(i, j).getText() + "\n");
                         }
                     }
                 } catch (IOException e) {
@@ -213,11 +216,7 @@ public class SpelPresenter {
 
                 if (alertExit.getResult().equals(ja)) {
 
-                    //Zet deze twee bij de methode die nakijkt of er nog moves over zijn
-
-
                     try {
-                        // TODO: save methode oproepen
                         model.inlezenScores();
                         model.scoreOpslaan();
 
@@ -237,11 +236,12 @@ public class SpelPresenter {
         });
     }
 
-    private void setSave(String[] inlezing){
+
+    private void setSave(String[] inlezing) {
         int getal = 1;
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
-                view.getTileValue(i,j).setText(inlezing[getal]);
+                view.getTileValue(i, j).setText(inlezing[getal]);
                 getal++;
             }
         }
@@ -258,9 +258,6 @@ public class SpelPresenter {
             numbers.add(model.randomTile());
         }
 
-        for (Integer number : numbers) {
-            view.getbackgroundtile(number);
-        }
         model.inlezenScores();
         view.getLblBesteScoreGetal().setText(model.getBest());
     }
@@ -275,13 +272,13 @@ public class SpelPresenter {
         while (!view.getTileValue(xRandom, yRandom).getText().equals("")) {
             xRandom = random.nextInt(4);
             yRandom = random.nextInt(4);
-            if (conditionLimit >= 16){
+            if (conditionLimit >= 16) {
                 break;
             }
             conditionLimit++;
         }
 
-        if (view.getTileValue(xRandom,yRandom).getText().equals("")){
+        if (view.getTileValue(xRandom, yRandom).getText().equals("")) {
             view.getTileValue(xRandom, yRandom).setText(Integer.toString(randomGetal));
         }
 
@@ -512,6 +509,11 @@ public class SpelPresenter {
         return Integer.toString(otherValue);
     }
 
+    /**
+     * Hier kijkt men na welke value er komt op de gridpane en geeft die de specifieke kleur
+     * dat van de css komt
+     */
+
 
     private void setStyleTile() {
         for (int x = 0; x < 4; x++) {
@@ -519,7 +521,7 @@ public class SpelPresenter {
                 if (!view.getTileValue(x, y).getText().equals("")) {
                     int value = Integer.parseInt(view.getTileValue(x, y).getText());
                     view.getTileValue(x, y).getStyleClass().add("game-tile-" + Integer.toString(value));
-                    view.getTileValue(x,y).setBackground(null);
+                    view.getTileValue(x, y).setBackground(null);
                     view.getStack(x, y).getStyleClass().add("game-tile-" + Integer.toString(value));
                 }
             }

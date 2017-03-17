@@ -7,9 +7,13 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
- * Created by boyan on 7/02/2017.
+ * @author Elias & Boyan
  */
 public class Main extends Application {
+
+    public static void main(String[] args) {
+        launch(args);
+    }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -25,9 +29,5 @@ public class Main extends Application {
 
 
         primaryStage.show();
-    }
-
-    public static void main(String[] args) {
-        launch(args);
     }
 }

@@ -13,7 +13,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
 /**
- * Created by boyan on 8/02/2017.
+ * @author Elias & Boyan
  */
 public class HighscoreView extends BorderPane {
     GridPane gridPane = new GridPane();
@@ -64,6 +64,7 @@ public class HighscoreView extends BorderPane {
         gridPane.add(naamKop, 0, 0);
         gridPane.add(scoreKop, 1, 0);
 
+
         for (int i = 0; i < Highscores.AANTAL_HIGHSCORES; i++) {
             gridPane.add(namen[i], 0, (i + 1));
             gridPane.add(scores[i], 1, (i + 1));
@@ -88,6 +89,13 @@ public class HighscoreView extends BorderPane {
                     }
                 });
     }
+
+    /**
+     * Geeft de waarde van de labels
+     *
+     * @param i
+     * @return naam of een score
+     */
 
     Label getNaamLabels(int i) {
         return namen[i];

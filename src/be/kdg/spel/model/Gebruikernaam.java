@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 /**
- * Created by boyan on 8/03/2017.
+ * @author Elias & Boyan
  */
 public class Gebruikernaam {
     private String naam;
@@ -18,8 +18,12 @@ public class Gebruikernaam {
         this.naam = naam;
     }
 
+    /**
+     * Hier word er telkens een geruikersnaam weggeschreven in de bestand player
+     */
+
     public void onthoudNaam() {
-        try (PrintWriter pw = new PrintWriter(new BufferedWriter((new FileWriter("files/players.txt"))))) {
+        try (PrintWriter pw = new PrintWriter(new BufferedWriter((new FileWriter("src/be/kdg/spel/files/players.txt"))))) {
             pw.write(naam);
         } catch (IOException e) {
             e.printStackTrace();
