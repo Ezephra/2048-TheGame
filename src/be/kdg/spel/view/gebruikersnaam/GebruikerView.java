@@ -15,9 +15,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
-/**
- * @author Elias & Boyan
- */
+
 public class GebruikerView extends BorderPane {
     private Label lblGebruiker;
     private TextField txtGebruikernaam;
@@ -56,7 +54,6 @@ public class GebruikerView extends BorderPane {
         this.setBackground(new Background(new BackgroundFill(Color.rgb(250, 248, 239), new CornerRadii(0), new Insets(0))));
 
         DropShadow shadow = new DropShadow();
-        //voegt de shadow erbij wanneer je op de knop bent
         this.btnVolgende.addEventHandler(MouseEvent.MOUSE_ENTERED,
                 new EventHandler<MouseEvent>() {
                     @Override

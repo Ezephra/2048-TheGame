@@ -5,14 +5,12 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
-/**
- * @author Elias & Boyan
- */
+
 public class Highscores {
     public final static int AANTAL_HIGHSCORES = 10;
+    private static final String SAVEDIR = "src/be/kdg/spel/files/";
     private String[] naam = new String[10];
     private String[] scores = new String[10];
-    private static final String SAVEDIR = "src/be/kdg/spel/files/";
 
     /**
      * Hier wordt telkens de gebruikersnaam samen met de highscore in de bestand ingelezen

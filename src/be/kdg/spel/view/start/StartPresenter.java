@@ -11,12 +11,9 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
-
 import java.util.Optional;
 
-/**
- * @author Elias & Boyan
- */
+
 public class StartPresenter {
     private StartView view;
 

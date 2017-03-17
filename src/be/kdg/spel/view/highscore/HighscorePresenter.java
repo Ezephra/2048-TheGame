@@ -6,9 +6,6 @@ import be.kdg.spel.view.start.StartView;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 
-/**
- * @author Elias & Boyan
- */
 public class HighscorePresenter {
     private Highscores model;
     private HighscoreView view;

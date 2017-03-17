@@ -12,9 +12,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
-/**
- * @author Elias & Boyan
- */
 public class HighscoreView extends BorderPane {
     GridPane gridPane = new GridPane();
     private Label naamKop;
