@@ -4,7 +4,7 @@ import java.util.Random;
 
 
 /**
- * Created by Boyan & Elias on 8/02/2017.
+ * @author Elias & Boyan
  */
 public class Spel {
     private String[] scores = new String[11];
@@ -35,11 +35,21 @@ public class Spel {
         this.value = value;
     }
 
+    /**
+     * Hier word er een random nummer gegenereerd
+     *
+     * @return Er word random een 2 of een 4 gereturneerd.
+     */
+
     public int randomTile() {
         Random r = new Random();
         return (r.nextInt(2) + 1) * 2;
 
     }
+
+    /**
+     * Hier word de naam van de huidige persoon gelezen
+     */
 
 
     public void naamInlezen() {
@@ -56,6 +66,10 @@ public class Spel {
     public String getNaam() {
         return naam;
     }
+
+    /**
+     * Telkens de scores lezen
+     */
 
     public void inlezenScores() {
         try {
@@ -76,6 +90,12 @@ public class Spel {
         }
         best = scores[0];
     }
+
+    /**
+     * Hier worden alleen de 10 scores opgeslaan
+     * De scores worden ook direct vergeleken met elkaar welke score een hoger cijfer heeft
+     * Deze score wordt dan hoger geplaatst
+     */
 
     public void scoreOpslaan() {
         for (int i = 10; i > 0; i--) {

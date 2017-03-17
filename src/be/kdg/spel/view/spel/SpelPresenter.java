@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * Created by Boyan & Elias on 8/02/2017.
+ * @author Elias & Boyan
  */
 public class SpelPresenter {
     private List<Integer> numbers = new ArrayList<>();
@@ -101,7 +101,7 @@ public class SpelPresenter {
                         lijn = br.readLine();
                         i++;
                     }
-                    if(ingelezen[0].equals(view.getLblGebruiker().getText())){
+                    if (ingelezen[0].equals(view.getLblGebruiker().getText())) {
                         setSave(ingelezen);
                     }
                 } catch (FileNotFoundException e) {
@@ -140,6 +140,11 @@ public class SpelPresenter {
                 view.getScene().setRoot(highscoreView);
             }
         });
+
+        /**
+         * Bij het saven van het spel gaat men de waardes dat op de gridpane staan 16 keer wegschrijven in bestand
+         */
+
         view.getMiSave().setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -148,7 +153,7 @@ public class SpelPresenter {
                     pw.write(view.getLblGebruiker().getText() + "\n");
                     for (int i = 0; i < 4; i++) {
                         for (int j = 0; j < 4; j++) {
-                            pw.write(view.getTileValue(i,j).getText() + "\n");
+                            pw.write(view.getTileValue(i, j).getText() + "\n");
                         }
                     }
                 } catch (IOException e) {
@@ -171,6 +176,7 @@ public class SpelPresenter {
                 alertExit.showAndWait();
                 if (alertExit.getResult().equals(ja)) {
                     //Zet deze twee bij de methode die nakijkt of er nog moves over zijn
+
                     try {
                         model.inlezenScores();
                         model.scoreOpslaan();
@@ -444,6 +450,11 @@ public class SpelPresenter {
         view.getLblHuidigeScoreGetal().setText(Integer.toString(scoreGetal));
         return Integer.toString(otherValue);
     }
+
+    /**
+     * Hier kijkt men na welke value er komt op de gridpane en geeft die de specifieke kleur
+     * dat van de css komt
+     */
 
 
     private void setStyleTile() {

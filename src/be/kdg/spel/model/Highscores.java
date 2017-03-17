@@ -6,7 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 /**
- * Created by boyan on 13/03/2017.
+ * @author Elias & Boyan
  */
 public class Highscores {
     public final static int AANTAL_HIGHSCORES = 10;
@@ -14,13 +14,17 @@ public class Highscores {
     private String[] scores = new String[10];
     private static final String SAVEDIR = "src/be/kdg/spel/files/";
 
+    /**
+     * Hier wordt telkens de gebruikersnaam samen met de highscore in de bestand ingelezen
+     * Telkens wordt de naam en de highscre met een "-" gescheiden.
+     */
+
     public void inlezenHighscore() {
         try {
             BufferedReader br = new BufferedReader(new FileReader((SAVEDIR + "highscores.txt")));
             String lijn = br.readLine();
             int i = 0;
 
-            //naam streepje punten elke lijn
             while (lijn != null) {
                 String[] gegeven = lijn.split("-");
                 naam[i] = gegeven[0];

@@ -16,7 +16,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
 /**
- * Created by boyan on 8/03/2017.
+ * @author Elias & Boyan
  */
 public class GebruikerView extends BorderPane {
     private Label lblGebruiker;
@@ -73,6 +73,12 @@ public class GebruikerView extends BorderPane {
                 });
 
     }
+
+    /**
+     * Vraagt de ingvoerde naam van de TextField gebruikersnaam
+     *
+     * @return De naam in string
+     */
 
     public String getTxtGebruikernaam() {
         return txtGebruikernaam.getText();

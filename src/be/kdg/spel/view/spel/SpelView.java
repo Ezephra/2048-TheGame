@@ -234,6 +234,7 @@ public class SpelView extends BorderPane {
         return lblHuidigeScoreGetal;
     }
 
+
     Button getBtnRestart() {
         return btnRestart;
     }

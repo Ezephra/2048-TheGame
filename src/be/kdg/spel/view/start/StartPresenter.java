@@ -15,7 +15,7 @@ import javafx.scene.control.ButtonType;
 import java.util.Optional;
 
 /**
- * Created by boyan on 7/02/2017.
+ * @author Elias & Boyan
  */
 public class StartPresenter {
     private StartView view;
@@ -24,7 +24,6 @@ public class StartPresenter {
         this.view = view;
         addEventHandlers();
         updateView();
-        addWindowEventHandlers();
     }
 
     private void addEventHandlers() {
@@ -71,10 +70,5 @@ public class StartPresenter {
     private void updateView() {
 
     }
-
-    public void addWindowEventHandlers() {
-
-    }
-
 
 }

@@ -1,7 +1,7 @@
 package be.kdg.spel.model;
 
 /**
- * Created by Ezephra on 27/02/2017.
+ * @author Elias & Boyan
  */
 public enum Richting {
     BOVEN, BENEDEN, LINKS, RECHTS
