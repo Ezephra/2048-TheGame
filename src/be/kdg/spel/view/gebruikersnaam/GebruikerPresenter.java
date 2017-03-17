@@ -1,5 +1,4 @@
 package be.kdg.spel.view.gebruikersnaam;
-
 import be.kdg.spel.model.Gebruikernaam;
 import be.kdg.spel.model.Spel;
 import be.kdg.spel.model.SpelException;
@@ -45,7 +44,6 @@ public class GebruikerPresenter {
                     alertGeenGebruiker.setContentText(se.getMessage());
                     alertGeenGebruiker.showAndWait();
                 }
-
             }
         });
     }
