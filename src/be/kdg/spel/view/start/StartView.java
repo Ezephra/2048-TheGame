@@ -1,5 +1,4 @@
 package be.kdg.spel.view.start;
-
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -11,10 +10,6 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
-
-/**
- *@author Elias & Boyan
- */
 public class StartView extends BorderPane {
     private Label lblTitel;
     private Button btnStart;

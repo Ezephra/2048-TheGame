@@ -8,9 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
 
-/**
- * @author Elias & Boyan
- */
+
 public class GebruikerPresenter {
     private GebruikerView view;
     private Gebruikernaam model;

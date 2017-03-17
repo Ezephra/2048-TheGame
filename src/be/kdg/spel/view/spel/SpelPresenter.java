@@ -18,10 +18,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-/**
- * @author Elias & Boyan
- */
 public class SpelPresenter {
+    private static final String SAVEDIR = "src/be/kdg/spel/files/";
+    private static final int MAX_TILE_X = 4;
+    private static final int MAX_TILE_Y = 4;
     private List<Integer> numbers = new ArrayList<>();
     private Spel model;
     private SpelView view;
@@ -29,9 +29,6 @@ public class SpelPresenter {
     private int xRandom;
     private int yRandom;
     private String[] ingelezen = new String[17];
-    private static final String SAVEDIR = "src/be/kdg/spel/files/";
-    private static final int MAX_TILE_X = 4;
-    private static final int MAX_TILE_Y = 4;
 
 
 
@@ -151,8 +148,8 @@ public class SpelPresenter {
                 try (PrintWriter pw = new PrintWriter(new BufferedWriter((new FileWriter(SAVEDIR
                         + view.getLblGebruiker().getText() + ".txt"))))) {
                     pw.write(view.getLblGebruiker().getText() + "\n");
-                    for (int i = 0; i < 4; i++) {
-                        for (int j = 0; j < 4; j++) {
+                    for (int i = 0; i < MAX_TILE_X; i++) {
+                        for (int j = 0; j < MAX_TILE_Y; j++) {
                             pw.write(view.getTileValue(i, j).getText() + "\n");
                         }
                     }
@@ -175,13 +172,19 @@ public class SpelPresenter {
                 alertExit.getButtonTypes().addAll(ja, nee, cansel);
                 alertExit.showAndWait();
                 if (alertExit.getResult().equals(ja)) {
-                    //Zet deze twee bij de methode die nakijkt of er nog moves over zijn
-
-                    try {
+                    try (PrintWriter pw = new PrintWriter(new BufferedWriter((new FileWriter(SAVEDIR
+                            + view.getLblGebruiker().getText() + ".txt"))))) {
+                        pw.write(view.getLblGebruiker().getText() + "\n");
+                        for (int i = 0; i < MAX_TILE_X; i++) {
+                            for (int j = 0; j < MAX_TILE_Y; j++) {
+                                pw.write(view.getTileValue(i, j).getText() + "\n");
+                            }
+                        }
                         model.inlezenScores();
                         model.scoreOpslaan();
-
                         Platform.exit();
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     } catch (SpelException se) {
                         alertExit = new Alert(Alert.AlertType.ERROR);
                         alertExit.setTitle("Saven mislukt!");
@@ -207,6 +210,10 @@ public class SpelPresenter {
 
     }
 
+    /**
+     * Hier worden de waardes op een random positie geplaatst op de grid
+     */
+
     private void addRandomTile() {
         this.random = new Random();
         int randomGetal = model.randomTile();
@@ -217,22 +224,29 @@ public class SpelPresenter {
         while (!view.getTileValue(xRandom, yRandom).getText().equals("")) {
             xRandom = random.nextInt(MAX_TILE_X);
             yRandom = random.nextInt(MAX_TILE_Y);
-            if (conditionLimit >= 16){
+            if (conditionLimit >= 16) {
                 break;
             }
             conditionLimit++;
         }
-        if (view.getTileValue(xRandom,yRandom).getText().equals("")){
+        if (view.getTileValue(xRandom, yRandom).getText().equals("")) {
             view.getTileValue(xRandom, yRandom).setText(Integer.toString(randomGetal));
         }
         setStyleTile();
     }
 
+    /**
+     * Deze methode bepaalt hoe de tile beweegt in de juiste richting
+     * Telkens afhankelijk van de richting die u de tile beweegt
+     * zal men checken of er plaats is en als dat zo is zal het zich daar verplaatsen
+     *
+     * @param r dit is de richting
+     */
+
 
     private void moveTiles(Richting r) {
         switch (r) {
             case BOVEN:
-                //bij elke y kolom checked die elke vak of er plaats is.
                 for (int x = 0; x < MAX_TILE_X; x++) {
                     for (int y = 0; y < MAX_TILE_Y; y++) {
                         int checkLeeg = 0;
@@ -427,6 +441,13 @@ public class SpelPresenter {
         }
     }
 
+    /**
+     * Men bepaalt of de tile + de tile die ernaast is kan samengevoegd worden met zelfde waarde
+     *
+     * @param currentTile     Huidige tile
+     * @param destinationTile Tile die ernaast is
+     * @return Returneert de samengevoegde waarde
+     */
 
     private String mergeTiles(String currentTile, String destinationTile) {
         int currentValue = Integer.parseInt(currentTile);
@@ -463,12 +484,16 @@ public class SpelPresenter {
                 if (!view.getTileValue(x, y).getText().equals("")) {
                     int value = Integer.parseInt(view.getTileValue(x, y).getText());
                     view.getTileValue(x, y).getStyleClass().add("game-tile-" + Integer.toString(value));
-                    view.getTileValue(x,y).setBackground(null);
+                    view.getTileValue(x, y).setBackground(null);
                     view.getStack(x, y).getStyleClass().add("game-tile-" + Integer.toString(value));
                 }
             }
         }
     }
+
+    /**
+     * Verwijderd de style in de gridpane
+     */
 
     private void removeStyleTile() {
         for (int x = 0; x < MAX_TILE_X; x++) {
@@ -481,23 +506,29 @@ public class SpelPresenter {
         }
     }
 
-    private void setSave(String[] inlezing){
+    private void setSave(String[] inlezing) {
         int getal = 1;
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 4; j++) {
-                view.getTileValue(i,j).setText(inlezing[getal]);
+        for (int i = 0; i < MAX_TILE_X; i++) {
+            for (int j = 0; j < MAX_TILE_Y; j++) {
+                view.getTileValue(i, j).setText(inlezing[getal]);
                 getal++;
             }
         }
         setStyleTile();
     }
 
-    private boolean horizontalCheck(){
+    /**
+     * Men checked of de waardes die horizontaal liggen, kunnen worden samengevoegd
+     *
+     * @return false als dit het geval is
+     */
+
+    private boolean horizontalCheck() {
         for (int x = 0; x < MAX_TILE_X; x++) {
-            for (int y = 0; y < MAX_TILE_Y ; y++) {
-                if (y != MAX_TILE_Y - 1){
-                    String value2 = view.getTileValue(x,y + 1).getText();
-                    String value1 = view.getTileValue(x,y).getText();
+            for (int y = 0; y < MAX_TILE_Y; y++) {
+                if (y != MAX_TILE_Y - 1) {
+                    String value2 = view.getTileValue(x, y + 1).getText();
+                    String value1 = view.getTileValue(x, y).getText();
                     if (value1.equals("") || value2.equals("")) return false;
                     if (value1.equals(value2)) return false;
                 }
@@ -506,12 +537,18 @@ public class SpelPresenter {
         return true;
     }
 
-    private boolean verticalCheck(){
+    /**
+     * Men checked of de waardes die verticaal liggen, kunnen worden samengevoegd
+     *
+     * @return false als dit het geval is
+     */
+
+    private boolean verticalCheck() {
         for (int x = 0; x < MAX_TILE_X; x++) {
-            for (int y = 0; y < MAX_TILE_Y ; y++) {
-                if (x != MAX_TILE_X - 1){
-                    String value1 = view.getTileValue(x,y).getText();
-                    String value2 = view.getTileValue(x + 1,y).getText();
+            for (int y = 0; y < MAX_TILE_Y; y++) {
+                if (x != MAX_TILE_X - 1) {
+                    String value1 = view.getTileValue(x, y).getText();
+                    String value2 = view.getTileValue(x + 1, y).getText();
                     if (value1.equals("") || value2.equals("")) return false;
                     if (value1.equals(value2)) return false;
                 }
@@ -519,8 +556,10 @@ public class SpelPresenter {
         }
         return true;
     }
-    private void youLose(){
+
+    private void youLose() {
         if (horizontalCheck() == true && verticalCheck() == true) {
+            model.scoreOpslaan();
             Alert alertLose = new Alert(Alert.AlertType.CONFIRMATION);
             alertLose.setTitle("You lose!!");
             alertLose.setContentText("Wilt u terug opnieuw spelen?");
@@ -541,10 +580,10 @@ public class SpelPresenter {
         }
     }
 
-    private void youWin(){
+    private void youWin() {
         for (int x = 0; x < MAX_TILE_X; x++) {
             for (int y = 0; y < MAX_TILE_Y; y++) {
-                if (view.getTileValue(x,y).getText().equals("2048")){
+                if (view.getTileValue(x, y).getText().equals("2048")) {
                     try {
                         Thread.sleep(500);
                         Alert alertWin = new Alert(Alert.AlertType.CONFIRMATION);

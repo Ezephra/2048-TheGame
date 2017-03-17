@@ -17,13 +17,6 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
-import java.util.ArrayList;
-import java.util.List;
-
-
-/**
- * Created by Boyan & Elias on 8/02/2017.
- */
 public class SpelView extends BorderPane {
     private static final double TILE_HEIGHT = 90.0;
     private static final double TILE_WIDTH = 90.0;
@@ -234,13 +227,8 @@ public class SpelView extends BorderPane {
         return lblHuidigeScoreGetal;
     }
 
-
     Button getBtnRestart() {
         return btnRestart;
-    }
-
-    public static int getMaxTiles() {
-        return MAX_TILES;
     }
 
     Button getBtnHighscore() {
@@ -249,10 +237,6 @@ public class SpelView extends BorderPane {
 
     Label getLblGebruiker() {
         return lblGebruiker;
-    }
-
-    void setLblGebruiker(Label lblGebruiker) {
-        this.lblGebruiker = lblGebruiker;
     }
 
     MenuItem getMiLoad() {

@@ -2,18 +2,14 @@ package be.kdg.spel.model;
 import java.io.*;
 import java.util.Random;
 
-
-/**
- * @author Elias & Boyan
- */
 public class Spel {
+    private static final String SAVEDIR = "src/be/kdg/spel/files/";
     private String[] scores = new String[11];
     private String[] player = new String[11];
     private int score;
     private int value;
     private String naam;
     private String best;
-    private static final String SAVEDIR = "src/be/kdg/spel/files/";
 
     public Spel() {
         this(0);
@@ -54,7 +50,7 @@ public class Spel {
 
     public void naamInlezen() {
         try {
-            BufferedReader br = new BufferedReader(new FileReader((SAVEDIR +"players.txt")));
+            BufferedReader br = new BufferedReader(new FileReader((SAVEDIR + "players.txt")));
             naam = br.readLine();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
