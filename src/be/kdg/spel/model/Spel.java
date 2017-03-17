@@ -13,6 +13,7 @@ public class Spel {
     private int value;
     private String naam;
     private String best;
+    private static final String SAVEDIR = "src/be/kdg/spel/files/";
 
     public Spel() {
         this(0);
@@ -43,7 +44,7 @@ public class Spel {
 
     public void naamInlezen() {
         try {
-            BufferedReader br = new BufferedReader(new FileReader(("files/players.txt")));
+            BufferedReader br = new BufferedReader(new FileReader((SAVEDIR +"players.txt")));
             naam = br.readLine();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -58,7 +59,7 @@ public class Spel {
 
     public void inlezenScores() {
         try {
-            BufferedReader br = new BufferedReader(new FileReader(("files/highscores.txt")));
+            BufferedReader br = new BufferedReader(new FileReader((SAVEDIR + "highscores.txt")));
             int i = 0;
             String lijn = br.readLine();
             while (lijn != null) {
@@ -92,7 +93,7 @@ public class Spel {
             }
         }
 
-        try (PrintWriter pw = new PrintWriter(new BufferedWriter((new FileWriter("files/highscores.txt"))))) {
+        try (PrintWriter pw = new PrintWriter(new BufferedWriter((new FileWriter(SAVEDIR + "highscores.txt"))))) {
             for (int i = 0; i < 10; i++) {
                 pw.write(player[i] + "-" + scores[i] + "\n");
             }
