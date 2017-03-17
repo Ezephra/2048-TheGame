@@ -13,13 +13,13 @@ import java.io.PrintWriter;
  */
 public class Gebruikernaam {
     private String naam;
-
+    private static final String SAVEDIR = "src/be/kdg/spel/files/";
     public void setNaam(String naam) {
         this.naam = naam;
     }
 
     public void onthoudNaam() {
-        try (PrintWriter pw = new PrintWriter(new BufferedWriter((new FileWriter("files/players.txt"))))) {
+        try (PrintWriter pw = new PrintWriter(new BufferedWriter((new FileWriter(SAVEDIR + "players.txt"))))) {
             pw.write(naam);
         } catch (IOException e) {
             e.printStackTrace();
