@@ -13,6 +13,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.input.KeyEvent;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -22,7 +23,7 @@ import java.util.Random;
  */
 public class SpelPresenter {
     String naam;
-    List<Integer> numbers = new ArrayList<>();
+    private List<Integer> numbers = new ArrayList<>();
     private Spel model;
     private SpelView view;
     private Random random;
@@ -32,6 +33,7 @@ public class SpelPresenter {
     private int yRandom;
     private boolean isGewonnen = false;
     private boolean isVerloren = false;
+    private String[] ingelezen = new String[17];
 
 
     public SpelPresenter(Spel model, SpelView view) {
@@ -128,12 +130,21 @@ public class SpelPresenter {
             @Override
             public void handle(ActionEvent event) {
                 try {
-                    //// TODO: save methode maken
-                } catch (SpelException se) {
-                    Alert alertSave = new Alert(Alert.AlertType.ERROR);
-                    alertSave.setTitle("Saven mislukt!");
-                    alertSave.setContentText(se.getMessage());
-                    alertSave.showAndWait();
+                    BufferedReader br = new BufferedReader(new FileReader(("files/" + view.getLblGebruiker().getText() + ".txt")));
+                    String lijn = br.readLine();
+                    int i = 0;
+                    while (lijn != null) {
+                        ingelezen[i] = lijn;
+                        lijn = br.readLine();
+                        i++;
+                    }
+                    if(ingelezen[0].equals(view.getLblGebruiker().getText())){
+                        setSave(ingelezen);
+                    }
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
         });
@@ -171,9 +182,19 @@ public class SpelPresenter {
         view.getMiSave().setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                model.inlezenScores();
-                model.scoreOpslaan();
-                Platform.exit();
+
+                try (PrintWriter pw = new PrintWriter(new BufferedWriter((new FileWriter("files/" + view.getLblGebruiker().getText() + ".txt"))))) {
+
+                    pw.write(view.getLblGebruiker().getText() + "\n");
+                    for (int i = 0; i < 4; i++) {
+                        for (int j = 0; j < 4; j++) {
+                            pw.write(view.getTileValue(i,j).getText() + "\n");
+                        }
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
             }
         });
 
@@ -216,6 +237,16 @@ public class SpelPresenter {
         });
     }
 
+    private void setSave(String[] inlezing){
+        int getal = 1;
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                view.getTileValue(i,j).setText(inlezing[getal]);
+                getal++;
+            }
+        }
+        setStyleTile();
+    }
 
     private void updateView() {
         addRandomTile();
@@ -240,15 +271,24 @@ public class SpelPresenter {
 
         xRandom = random.nextInt(4);
         yRandom = random.nextInt(4);
-        while (view.getTileValue(xRandom, yRandom).getText().equals("")) {
-            // // TODO: 5/03/2017 leeg plaats
-            view.getTileValue(xRandom, yRandom).setText(Integer.toString(randomGetal));
-            setStyleTile();
-            break;
+        int conditionLimit = 1;
+        while (!view.getTileValue(xRandom, yRandom).getText().equals("")) {
+            xRandom = random.nextInt(4);
+            yRandom = random.nextInt(4);
+            if (conditionLimit >= 16){
+                break;
+            }
+            conditionLimit++;
         }
+
+        if (view.getTileValue(xRandom,yRandom).getText().equals("")){
+            view.getTileValue(xRandom, yRandom).setText(Integer.toString(randomGetal));
+        }
+
+        setStyleTile();
     }
 
-    // TODO: moveTiles methode...
+
     private void moveTiles(Richting r) {
         switch (r) {
             case BOVEN:
