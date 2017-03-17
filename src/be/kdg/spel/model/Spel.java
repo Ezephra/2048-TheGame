@@ -7,8 +7,8 @@ import java.util.Random;
  * Created by Boyan & Elias on 8/02/2017.
  */
 public class Spel {
-    String[] scores = new String[11];
-    String[] player = new String[11];
+    private String[] scores = new String[11];
+    private String[] player = new String[11];
     private int score;
     private int value;
     private String naam;
@@ -36,16 +36,15 @@ public class Spel {
 
     public int randomTile() {
         Random r = new Random();
-        int value = (r.nextInt(2) + 1) * 2;
-        return value;
+        return (r.nextInt(2) + 1) * 2;
+
     }
 
 
     public void naamInlezen() {
         try {
             BufferedReader br = new BufferedReader(new FileReader(("files/players.txt")));
-            String line = br.readLine();
-            naam = line;
+            naam = br.readLine();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {

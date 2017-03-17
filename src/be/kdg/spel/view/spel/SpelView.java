@@ -30,7 +30,7 @@ public class SpelView extends BorderPane {
     private static final double GRID_WIDTH = 410.0;
     private static final double GRID_HEIGHT = 410.0;
 
-    GridPane valueLabels = new GridPane();
+    private GridPane valueLabels = new GridPane();
 
     private Label lblHuidigeScore;
     private Label lblBesteScore;
@@ -221,7 +221,7 @@ public class SpelView extends BorderPane {
         return grid;
     }
 
-    public StackPane getStack(int x, int y) {
+    StackPane getStack(int x, int y) {
         return stack[x][y];
     }
 
@@ -229,11 +229,11 @@ public class SpelView extends BorderPane {
         return lblTileValue[x][y];
     }
 
-    public Label getLblHuidigeScoreGetal() {
+    Label getLblHuidigeScoreGetal() {
         return lblHuidigeScoreGetal;
     }
 
-    public Paint getbackgroundtile(int value) {
+    Paint getbackgroundtile(int value) {
         switch (value) {
             case 2:
                 return Color.rgb(238, 228, 218);
@@ -261,40 +261,40 @@ public class SpelView extends BorderPane {
         return Color.rgb(205, 193, 180);
     }
 
-    public Button getBtnRestart() {
+    Button getBtnRestart() {
         return btnRestart;
     }
 
 
-    public Button getBtnHighscore() {
+    Button getBtnHighscore() {
         return btnHighscore;
     }
 
-    public Label getLblGebruiker() {
+    Label getLblGebruiker() {
         return lblGebruiker;
     }
 
-    public void setLblGebruiker(Label lblGebruiker) {
+    void setLblGebruiker(Label lblGebruiker) {
         this.lblGebruiker = lblGebruiker;
     }
 
-    public MenuItem getMiLoad() {
+    MenuItem getMiLoad() {
         return miLoad;
     }
 
-    public MenuItem getMiExit() {
+    MenuItem getMiExit() {
         return miExit;
     }
 
-    public Label getLblBesteScoreGetal() {
+    Label getLblBesteScoreGetal() {
         return lblBesteScoreGetal;
     }
 
-    public Button getBtnTerug() {
+    Button getBtnTerug() {
         return btnTerug;
     }
 
-    public MenuItem getMiSave() {
+    MenuItem getMiSave() {
         return miSave;
     }
 }
